@@ -1,0 +1,136 @@
+html {
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -ms-text-size-adjust: 100%;
+    -ms-overflow-style: scrollbar;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    box-sizing: border-box;
+    font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #222;
+    background-color: #fff;
+    text-rendering: optimizeLegibility;
+    // overflow: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Microsoft Yahei,Tahoma,Helvetica,Arial,"\5B8B\4F53",sans-serif;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6  {
+    margin-top: 0;
+    margin-bottom: .5em;
+    color: rgba(0,0,0,.85);
+    font-weight: 500
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1em
+}
+
+a {
+    color: #222;
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    transition: color .3s;
+    -webkit-text-decoration-skip: objects
+}
+
+a:active,a:hover {
+    color: #00a1d6
+}
+
+a:active,a:hover {
+    outline: 0;
+    text-decoration: none
+}
+
+a[disabled] {
+    color: rgba(0,0,0,.25);
+    cursor: not-allowed;
+    pointer-events: none
+}
+
+figure {
+    margin: 0 0 1em
+}
+
+img {
+    vertical-align: middle;
+    border-style: none
+}
+
+svg:not(:root) {
+    overflow: hidden
+}
+
+
+table {
+    border-collapse: collapse
+}
+
+th {
+    text-align: inherit
+}
+
+button,input {
+    overflow: visible
+}
+
+ol,ul {
+    list-style: none
+}
+
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+
+.pr-5 {
+  padding-right: 5px;
+}
+
+.pl-5 {
+  padding-left: 5px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center
+}
+
+.link-type,
+.link-type:focus {
+  color: #57c5f7;
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(32, 160, 255);
+  }
+}

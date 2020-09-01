@@ -1,0 +1,33 @@
+@import './variables.scss';
+@import './common.scss';
+@import './mixin.scss';
+@import './element-ui.scss';
+@import './sidebar.scss';
+@import './btn.scss';
+
+#app {
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+aside {
+  background: $menuBg;
+}
+
+.app-container {
+  padding: 15px;
+}
+
+.components-container {
+  margin: 30px 50px;
+  position: relative;
+}
+
+.pagination-container {
+  margin-top: 0px;
+}
+
+.filter-container {
+  padding-bottom: 10px;
+}
