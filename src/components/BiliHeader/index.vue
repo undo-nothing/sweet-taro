@@ -171,6 +171,7 @@ export default {
   background-position: center 0;
   background-size: cover;
   background-image: url('http://127.0.0.1:8000/media/image/header1.png');
+  // background: #fff;
 
   .taper-line {
     top: 0;

@@ -1,5 +1,5 @@
 <template>
-  <div @click="handleClick" class="sort-item">
+  <div class="sort-item" :class="['sort-item', sortClass]">
     <span><slot></slot></span>
     <span class="caret-wrapper">
       <i class="sort-caret descending" />
@@ -11,10 +11,27 @@
 <script>
 export default {
   name: 'SortItem',
+  props: {
+    field: String,
+    orderingValue: Number,
+    orderingField: String,
+  },
+  created() {
+  },
   methods: {
-    handleClick () {
+  },
+  computed: {
+    sortClass: function () {
+      if (this.orderingField === this.field) {
+        if (this.orderingValue === 1) {
+          return 'ascending';
+        } else if (this.orderingValue === -1) {
+          return 'descending';
+        }
+      }
+      return ''
     }
-  }
+  },
 }
 
 </script>

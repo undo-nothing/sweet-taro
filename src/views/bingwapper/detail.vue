@@ -1,11 +1,11 @@
 <template>
   <div class="bing-wapper-detail" :style="{ backgroundImage: 'url(' + bgUrl + ')' }">
     <div class="header-box">
-      <div class="header-left">
+      <!-- <div class="header-left">
         <el-row>
           <el-button icon="el-icon-arrow-left" @click="handleBack">BACK</el-button>
         </el-row>
-      </div>
+      </div> -->
       <div class="header-right">
         <el-row>
           <el-button icon="el-icon-share" @click="handleShare">分享</el-button>
@@ -109,15 +109,15 @@ export default {
       this.shareDialogVisible = false
       clipboard(this.shareText, event)
     },
-    handleBack() {
-      this.$router.push({ name: 'bingwapper-index'})
-    },
+    // handleBack() {
+    //   this.$router.push({ name: 'bingwapper-index'})
+    // },
     handleShare() {
       this.shareText = `#必应壁纸# ${this.detail.date} / ${this.detail.author} \n${window.location.href}`
       this.shareDialogVisible = true
     },
     handleDownload() {
-      let url = this.detail.filename ? this.mediaBaseUrl + '/media/bingwapper/' + this.detail.filename + '.jpg' : ''
+      let url = this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
       window.open(url)
     },
     handleLike() {
@@ -133,7 +133,7 @@ export default {
       return formatDate(new Date()) === formatDate(this.date) ? true : false
     },
     bgUrl: function () {
-      return this.detail.filename ? this.mediaBaseUrl + '/media/bingwapper/' + this.detail.filename + '.jpg' : ''
+      return this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
     }
   },
   watch: {

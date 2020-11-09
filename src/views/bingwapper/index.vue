@@ -62,14 +62,14 @@
         </div>
       </div>
       <ul class="sort-banner clearfix">
-        <li @click="orderChange('date')">
-          <sort-item :class='dateSortClass'>发行日期</sort-item>
+        <li @click="handleOrderClick('date')">
+          <sort-item field="date" :ordering-field="orderingField" :ordering-value="orderingValue">发行日期</sort-item>
         </li>
-        <li>
-          <sort-item class=''>收藏数量</sort-item>
+        <li @click="handleOrderClick('mark')">
+          <sort-item field="mark" :ordering-field="orderingField" :ordering-value="orderingValue">收藏数量</sort-item>
         </li>
-        <li>
-          <sort-item class=''>喜欢数量</sort-item>
+        <li @click="handleOrderClick('like')">
+          <sort-item field="like" :ordering-field="orderingField" :ordering-value="orderingValue">喜欢数量</sort-item>
         </li>
       </ul>
       <div id="main_video">
@@ -110,22 +110,22 @@
                 <div class="filter-block">
                   <div class="filter-name">年</div>
                   <ul class="filter-item-wrapper">
-                    <li @click="filterYear('')" title="全部" :class="[{ 'on': !filters.year }, 'filter-item']">全部</li>
-                    <li v-for="year in years" title="year" :key="year" @click="filterYear(year)" :class="[{ 'on': filters.year === year }, 'filter-item']">{{ year }}</li>
+                    <li @click="handleFilterClick({'year': ''})" title="全部" :class="[{ 'on': !filters.year }, 'filter-item']">全部</li>
+                    <li v-for="year in years" :title="year" :key="year" @click="handleFilterClick({'year': year})" :class="[{ 'on': filters.year === year }, 'filter-item']">{{ year }}</li>
                   </ul>
                 </div>
                 <div class="filter-block">
                   <div class="filter-name">月</div>
                   <ul class="filter-item-wrapper">
-                    <li @click="filterMonth('')" title="全部"  :class="[{ 'on': !filters.month }, 'filter-item']">全部</li>
-                    <li v-for="month in 12" title="month" :key="month" @click="filterMonth(month)" :class="[{ 'on': filters.month === month }, 'filter-item']">{{ month }}</li>
+                    <li @click="handleFilterClick({'month': ''})" title="全部"  :class="[{ 'on': !filters.month }, 'filter-item']">全部</li>
+                    <li v-for="month in 12" :title="month" :key="month" @click="handleFilterClick({'month': month})" :class="[{ 'on': filters.month === month }, 'filter-item']">{{ month }}</li>
                   </ul>
                 </div>
                 <div class="filter-block">
                   <div class="filter-name">日</div>
                   <ul class="filter-item-wrapper">
-                    <li @click="filterDay('')" title="全部" :class="[{ 'on': !filters.day }, 'filter-item']">全部</li>
-                    <li v-for="day in 31" title="day" :key="day" @click="filterDay(day)" :class="[{ 'on': filters.day === day }, 'filter-item']">{{ day }}</li>
+                    <li @click="handleFilterClick({'day': ''})" title="全部" :class="[{ 'on': !filters.day }, 'filter-item']">全部</li>
+                    <li v-for="day in 31" :title="day" :key="day" @click="handleFilterClick({'day': day})" :class="[{ 'on': filters.day === day }, 'filter-item']">{{ day }}</li>
                   </ul>
                 </div>
               </div>
@@ -141,6 +141,7 @@ import Pagination from '@/components/Pagination'
 import BiliHeader from '@/components/BiliHeader'
 import SortItem from '@/components/SortItem'
 import { commonFetchList } from '@/utils/common_curd'
+import { urlJoinParams, handleUrlParams, changeOrdering } from '@/utils'
 
 export default {
   components: {
@@ -152,105 +153,66 @@ export default {
     return {
       // 分类
       genreList: [],
-
       // 数据显示
       list: null,
       listLoading: true,
+
+      // 必要属性
+      filters: {},
+      orderingField: '',
+      orderingValue: 0,
       total: 0,
       page: 1,
       limit: 12,
       pageSizes: [12, 24, 36, 48],
-      filters: {},
 
+      //页面自定义
       years: [],
-
-      // 分类筛选数据
-      filterList: [],
-      orderingField: 'date',
-      orderingValue: 1,
     };
   },
   created() {
+    this.initYears()
+    handleUrlParams(this)
     this.fetchList();
-    let today = new Date;
-    let nowYear = today.getFullYear()
-    for (var i = 0; i < 8; i++) {
-      this.years.push(nowYear - i)
-    }
-    // this.filters = JSON.parse(JSON.stringify(this.$route.query));
   },
   methods: {
     // 获取
     fetchList() {
-      let url_path = '/v1.0/bingwappers/'
-      let params = this.filters
-      if (this.orderingValue === -1) {
-        params['ordering'] = '-' + this.orderingField
-      } else if (this.orderingValue === 1) {
-        params['ordering'] = this.orderingField
+      let urlPath = this.apiUrl + 'bingwappers/'
+      commonFetchList(this, urlPath, this.filters)
+    },
+    handleOrderClick(field) {
+      changeOrdering(this, field)
+      var newUrl = urlJoinParams(this.$route.path, this.filters)
+      this.$router.push({ path: newUrl})
+    },
+    handleFilterClick(kwargs) {
+      for (var k in kwargs) {
+        this.filters[k] = kwargs[k];
       }
-      commonFetchList(this, url_path, params)
-      // this.$router.push({ name: 'bingwapper-index', query: params})
-    },
-    changeFilter() {
-      this.$router.push({ name: 'bingwapper-index'})
-    },
-    getList() {
-      console.log('getList')
+      var newUrl = urlJoinParams(this.$route.path, this.filters)
+      this.$router.push({ path: newUrl})
     },
     gotoDetailPage(date) {
-      this.$router.push({ path: '/bingwapper/' + date })
+      window.open('/bingwapper/' + date, '_blank');
     },
     getWapperUrl(filename) {
-      return "http://127.0.0.1:8000/media/bingwapper/" + filename + ".jpg"
+      return this.mediaBaseUrl + 'bingwapper/' + filename + '.jpg';
     },
-    orderChange(field) {
-      if (this.orderingField === field) {
-        if (this.orderingValue === -1) {
-          this.orderingValue = 0;
-        } else if (this.orderingValue === 1) {
-          this.orderingValue = -1;
-        } else {
-          this.orderingValue = 1;
-        }
-      } else {
-        this.orderingField = field;
-        this.orderingValue = 0;
+    initYears() {
+      let today = new Date;
+      let nowYear = today.getFullYear()
+      for (var i = 0; i < 8; i++) {
+        this.years.push(nowYear - i)
       }
-      this.fetchList();
-    },
-    filterYear(year) {
-      this.filters['year'] = year;
-      this.fetchList();
-    },
-    filterMonth(month) {
-      this.filters['month'] = month;
-      this.fetchList();
-    },
-    filterDay(day) {
-      this.filters['day'] = day;
-      this.fetchList();
-    },
-  },
-  computed: {
-    // 计算属性的 getter
-    dateSortClass: function () {
-      // `this` 指向 vm 实例
-      if (this.orderingField === 'date') {
-        if (this.orderingValue === 1) {
-          return 'ascending';
-        } else if (this.orderingValue === -1) {
-          return 'descending';
-        }
-      }
-      return ''
     }
   },
-  // watch: {
-  //   filters() {
-  //     console.log(this.filter)
-  //   }
-  // }
+  watch: {
+    $route() {
+      handleUrlParams(this)
+      this.fetchList()
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
