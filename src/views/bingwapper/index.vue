@@ -74,7 +74,7 @@
       </ul>
       <div id="main_video">
         <el-row>
-          <el-col :span="19">
+          <el-col :span="19" :xl="20">
             <div class="common-list-box">
               <div v-for="item in list" :key="item.id" @click="gotoDetailPage(item.date)" class="wapper-card-small">
                 <div class="card-pic">
@@ -103,7 +103,7 @@
               <pagination v-show="total>0" :total="total" :page.sync="page" :limit.sync="limit" :page-sizes="pageSizes" @pagination="fetchList" />
             </div>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="5" :xl="4">
             <div class="filter-wrapper">
               <div class="filter-title">筛选</div>
               <div class="filter-list">
@@ -293,7 +293,7 @@ export default {
     flex-direction: column;
     flex-wrap: wrap;
     height: 68px;
-    width: 289px;
+    width: 170px;
 
     .item {
       cursor: pointer;
@@ -310,7 +310,7 @@ export default {
 }
 
 .main-area {
-  width: 1520px;
+  width: 100%;
   height: 100%;
   margin: auto;
 
@@ -329,8 +329,8 @@ export default {
 }
 
 .wapper-card-small {
-  width: 380px;
-  height: 300px;
+  width: 338px;
+  height: 270px;
   cursor: pointer;
   margin: 8px;
   box-shadow: 0 5px 40px -1px rgba(2, 10, 18, .15);
@@ -400,7 +400,7 @@ export default {
 
   .filter-item-wrapper {
     margin-top: 0;
-    width: 264px;
+    width: 225px;
     float: right;
 
     .filter-item {
@@ -408,7 +408,7 @@ export default {
       vertical-align: top;
       line-height: 1;
       text-align: left;
-      width: 50px;
+      width: 45px;
       height: 30px;
       font-size: 12px;
       white-space: nowrap;
@@ -419,6 +419,23 @@ export default {
       cursor: pointer;
       outline: 0;
     }
+  }
+}
+</style>
+
+
+
+
+<style lang="scss" scoped>
+@media screen and (min-width: 1920px) {
+  .main-area {
+    width: 1749px;
+  }
+}
+
+@media screen and (min-width: 1200) {
+  .main-area {
+    width: 1349px;
   }
 }
 </style>
