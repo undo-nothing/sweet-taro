@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-let BASE_URL = 'http://127.0.0.1:8000'
+const BASE_URL = 'http://127.0.0.1:8000'
 
 export function commonFetchListApi(urlPath, params) {
   var url = urlPath
-  if (!urlPath.startsWith("http")) {
+  if (!urlPath.startsWith('http')) {
     url = BASE_URL + urlPath
   }
   return axios({
@@ -16,18 +16,18 @@ export function commonFetchListApi(urlPath, params) {
 
 export function commonRetrieveApi(urlPath) {
   var url = urlPath
-  if (!urlPath.startsWith("http")) {
+  if (!urlPath.startsWith('http')) {
     url = BASE_URL + urlPath
   }
   return axios({
     url: url,
-    method: 'get',
+    method: 'get'
   })
 }
 
 export function commonCreateApi(urlPath, data) {
   var url = urlPath
-  if (!urlPath.startsWith("http")) {
+  if (!urlPath.startsWith('http')) {
     url = BASE_URL + urlPath
   }
   return axios({
@@ -39,8 +39,8 @@ export function commonCreateApi(urlPath, data) {
 
 export function commonUpdateApi(urlPath, data) {
   var url = urlPath
-  if (!urlPath.startsWith("http")) {
-    url =BASE_URL + urlPath + data.id + '/'
+  if (!urlPath.startsWith('http')) {
+    url = BASE_URL + urlPath + data.id + '/'
   }
   return axios({
     url: url,
@@ -51,7 +51,7 @@ export function commonUpdateApi(urlPath, data) {
 
 export function commonDeleteApi(urlPath) {
   var url = urlPath
-  if (!urlPath.startsWith("http")) {
+  if (!urlPath.startsWith('http')) {
     url = BASE_URL + urlPath
   }
   return axios({

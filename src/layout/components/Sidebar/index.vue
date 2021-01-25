@@ -38,7 +38,7 @@
 
 export default {
   props: {
-    isCollapse : Boolean,
+    isCollapse: Boolean
   },
   created() {
     console.log('Hello', this.isCollapse)

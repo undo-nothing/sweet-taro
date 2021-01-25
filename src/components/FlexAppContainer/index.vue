@@ -1,25 +1,34 @@
 <template>
-  <div class="app-container" :style="'height:' + selfHeight" >
-    <slot></slot>
+  <div class="app-container" :style="'height:' + selfHeight">
+    <slot />
   </div>
 </template>
 
 <script>
-//FlexAppContainer能监视浏览器的高度并自动设置自身高度
+// FlexAppContainer能监视浏览器的高度并自动设置自身高度
 export default {
   name: 'FlexAppContainer',
   data() {
     return {
       screenHeight: document.documentElement.clientHeight,
-      selfHeight: "100%",
+      selfHeight: '100%'
+    }
+  },
+  watch: {
+    // 监控浏览器高度变化
+    screenHeight(val) {
+      console.log(val)
     }
   },
   created() {
     this.setSelfHeight()
   },
+  mounted() {
+    this.getScreenHeight()
+  },
   methods: {
-    //动态获取浏览器高度
-    getScreenHeight () {
+    // 动态获取浏览器高度
+    getScreenHeight() {
       const that = this
       window.onresize = () => {
         return (() => {
@@ -29,18 +38,9 @@ export default {
         })()
       }
     },
-    setSelfHeight () {
+    setSelfHeight() {
       this.selfHeight = (this.screenHeight - 50).toString() + 'px'
       console.log('set height:', this.selfHeight)
-    }
-  },
-  mounted () {
-    this.getScreenHeight()
-  },
-  watch: {
-    //监控浏览器高度变化
-    screenHeight (val) {
-      console.log(val)
     }
   }
 }

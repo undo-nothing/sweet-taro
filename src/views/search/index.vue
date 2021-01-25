@@ -31,7 +31,7 @@
             </li>
           </ul>
         </div>
-        <span class="tab-line"></span>
+        <span class="tab-line" />
         <div class="middle-link">
           <span v-for="genre in genreList" :key="genre.id">
             <div class="item">
@@ -39,7 +39,7 @@
             </div>
           </span>
         </div>
-        <span class="tab-line"></span>
+        <span class="tab-line" />
         <div class="friendship-link">
           <span>
             <div class="item"><a class="name"><span>动画</span></a></div>
@@ -66,7 +66,7 @@
           全部 / 视频
         </header>
         <div class="common-list-box">
-          <div v-for="item in list" :key="item.id" @click="gotoVideoPage(item.id)" class="common-card">
+          <div v-for="item in list" :key="item.id" class="common-card" @click="gotoVideoPage(item.id)">
             <div class="card-pic">
               <a>
                 <img :src="getThumb(item.id36)" alt="">
@@ -110,31 +110,31 @@ export default {
       page: 1,
       limit: 16,
       filters: {}
-    };
+    }
   },
   created() {
-    this.fetchGenreList();
-    this.fetchList();
+    this.fetchGenreList()
+    this.fetchList()
   },
   methods: {
     // 获取
     fetchList() {
-      let url_path = '/v1.0/videos/simple/?ordering=-id'
-      let params = this.filters
+      const url_path = '/v1.0/videos/simple/?ordering=-id'
+      const params = this.filters
       commonFetchList(this, url_path, params)
     },
     fetchGenreList() {
-      let url_path = '/v1.0/genres/'
-      commonFetchListApi(url_path, {limit: 20}).then(response => {
+      const url_path = '/v1.0/genres/'
+      commonFetchListApi(url_path, { limit: 20 }).then(response => {
         this.genreList = response.data.data
       })
     },
     gotoVideoPage(video_code) {
       console.log(video_code)
-      this.$router.push({path:'/video/' + video_code})
+      this.$router.push({ path: '/video/' + video_code })
     },
     getThumb(id36) {
-      return "https://pics.javcdn.pw/thumb/" + id36 + ".jpg"
+      return 'https://pics.javcdn.pw/thumb/' + id36 + '.jpg'
     }
   }
 }

@@ -32,11 +32,10 @@
             </li>
           </ul>
         </div>
-        <span class="tab-line"></span>
-        <middle-link></middle-link>
-        <span class="tab-line"></span>
-        <friendship-link class="friendship-link">
-        </friendship-link>
+        <span class="tab-line" />
+        <middle-link />
+        <span class="tab-line" />
+        <friendship-link class="friendship-link" />
       </div>
 
       <ul class="sort-banner">
@@ -55,7 +54,7 @@
         <el-row>
           <el-col :span="19" :xl="20">
             <div class="common-list-box">
-              <div v-for="item in list" :key="item.id" @click="gotoDetailPage(item.date)" class="wapper-card-small">
+              <div v-for="item in list" :key="item.id" class="wapper-card-small" @click="gotoDetailPage(item.date)">
                 <div class="card-pic">
                   <div>
                     <img :src="getWapperUrl(item.filename)" alt="">
@@ -70,7 +69,7 @@
                     </el-col>
                     <el-col :span="12">
                       <div style="float: right">
-                        <svg-icon icon-class="xihuan0" style="font-size: 15px; margin-bottom: 3px; color: red"/>
+                        <svg-icon icon-class="xihuan0" style="font-size: 15px; margin-bottom: 3px; color: red" />
                         <span> 999+</span>
                       </div>
                     </el-col>
@@ -90,22 +89,22 @@
                 <div class="filter-block">
                   <div class="filter-name">年</div>
                   <ul class="filter-item-wrapper">
-                    <li @click="handleFilterClick({'year': ''})" title="全部" :class="[{ 'on': !filters.year }, 'filter-item']">全部</li>
-                    <li v-for="year in years" :title="year" :key="year" @click="handleFilterClick({'year': year})" :class="[{ 'on': filters.year === year.toString() }, 'filter-item']">{{ year }}</li>
+                    <li title="全部" :class="[{ 'on': !filters.year }, 'filter-item']" @click="handleFilterClick({'year': ''})">全部</li>
+                    <li v-for="year in years" :key="year" :title="year" :class="[{ 'on': filters.year === year.toString() }, 'filter-item']" @click="handleFilterClick({'year': year})">{{ year }}</li>
                   </ul>
                 </div>
                 <div class="filter-block">
                   <div class="filter-name">月</div>
                   <ul class="filter-item-wrapper">
-                    <li @click="handleFilterClick({'month': ''})" title="全部"  :class="[{ 'on': !filters.month }, 'filter-item']">全部</li>
-                    <li v-for="month in 12" :title="month" :key="month" @click="handleFilterClick({'month': month})" :class="[{ 'on': filters.month === month.toString() }, 'filter-item']">{{ month }}</li>
+                    <li title="全部" :class="[{ 'on': !filters.month }, 'filter-item']" @click="handleFilterClick({'month': ''})">全部</li>
+                    <li v-for="month in 12" :key="month" :title="month" :class="[{ 'on': filters.month === month.toString() }, 'filter-item']" @click="handleFilterClick({'month': month})">{{ month }}</li>
                   </ul>
                 </div>
                 <div class="filter-block">
                   <div class="filter-name">日</div>
                   <ul class="filter-item-wrapper">
-                    <li @click="handleFilterClick({'day': ''})" title="全部" :class="[{ 'on': !filters.day }, 'filter-item']">全部</li>
-                    <li v-for="day in 31" :title="day" :key="day" @click="handleFilterClick({'day': day})" :class="[{ 'on': filters.day === day.toString() }, 'filter-item']">{{ day }}</li>
+                    <li title="全部" :class="[{ 'on': !filters.day }, 'filter-item']" @click="handleFilterClick({'day': ''})">全部</li>
+                    <li v-for="day in 31" :key="day" :title="day" :class="[{ 'on': filters.day === day.toString() }, 'filter-item']" @click="handleFilterClick({'day': day})">{{ day }}</li>
                   </ul>
                 </div>
               </div>
@@ -129,45 +128,45 @@ import FriendshipLink from '@/components/FriendshipLink'
 import MiddleLink from '@/components/MiddleLink'
 import SortItem from '@/components/SortItem'
 import { dataShowMixin } from '@/mixin/datashow'
-import { formatDate } from '@/utils/datetime';
+import { formatDate } from '@/utils/datetime'
 
 export default {
-  mixins: [dataShowMixin],
   components: {
     Pagination,
     BiliHeader,
     FriendshipLink,
     MiddleLink,
-    SortItem,
+    SortItem
   },
+  mixins: [dataShowMixin],
   data() {
     return {
-      //页面自定义
+      // 页面自定义
       apiPath: 'bingwappers/',
       years: [],
-      todayDate: new Date(),
-    };
+      todayDate: new Date()
+    }
   },
   methods: {
     init() {
       this.initYears()
     },
     gotoDetailPage(date) {
-      window.open('/bingwapper/' + date, '_blank');
+      window.open('/bingwapper/' + date, '_blank')
     },
     getWapperUrl(filename) {
-      return this.mediaBaseUrl + 'bingwapper/' + filename + '.jpg';
+      return this.mediaBaseUrl + 'bingwapper/' + filename + '.jpg'
     },
     initYears() {
-      let today = new Date;
-      let nowYear = today.getFullYear()
+      const today = new Date()
+      const nowYear = today.getFullYear()
       for (var i = 0; i < 8; i++) {
         this.years.push(nowYear - i)
       }
     },
     todayDateStr() {
       return formatDate(this.todayDate)
-    },
+    }
   }
 }
 </script>
@@ -337,8 +336,6 @@ export default {
   margin-left: 20px;
 }
 
-
-
 .filter-wrapper .filter-title {
   height: 44px;
   line-height: 1;
@@ -389,9 +386,6 @@ export default {
   }
 }
 </style>
-
-
-
 
 <style lang="scss" scoped>
 @media screen and (min-width: 1920px) {

@@ -3,7 +3,7 @@
     <bili-header :mini="true" />
     <div class="main-area">
       <div class="top-banner">
-          <img src="http://127.0.0.1:8000/media/image/rl_top.png">
+        <img src="http://127.0.0.1:8000/media/image/rl_top.png">
       </div>
       <div class="title-line">
         <span class="tit" style="font-size: 38px;">登录</span>
@@ -11,7 +11,7 @@
       <div class="login-box clearfix">
         <div class="login-left">
           <div class="qrcode-login">
-            <i class="tv-icon"></i>
+            <i class="tv-icon" />
             <div class="qrcode-img">
               <img src="http://127.0.0.1:8000/media/image/qr_code.jpg">
             </div>
@@ -25,7 +25,7 @@
             </p>
           </div>
         </div>
-        <div class="line"></div>
+        <div class="line" />
         <div class="login-right">
           <div class="form-login">
             <div class="input-box">
@@ -48,11 +48,11 @@ import BiliHeader from '@/components/BiliHeader'
 
 export default {
   components: {
-    BiliHeader,
+    BiliHeader
   },
   data() {
     return {
-    };
+    }
   },
   created() {
     console.log('created')

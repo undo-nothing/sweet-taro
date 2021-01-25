@@ -17,7 +17,7 @@
       </el-header>
 
       <el-main>
-        <router-view></router-view>
+        <router-view />
       </el-main>
     </el-container>
   </el-container>
@@ -31,19 +31,19 @@ export default {
   name: 'Layout',
   components: {
     Sidebar,
-    Hamburger,
+    Hamburger
   },
   data() {
     return {
       isCollapse: false,
       elAsideWidth: '210px'
-    };
+    }
   },
   created() {
     // console.log(this.sidebar.opened)
   },
   methods: {
-    handleIsCollapse:  function() {
+    handleIsCollapse: function() {
       this.isCollapse = !this.isCollapse
       if (this.isCollapse) {
         this.elAsideWidth = '64px'

@@ -9,7 +9,7 @@
       <div class="header-right">
         <el-row>
           <el-button icon="el-icon-share" @click="handleShare">分享</el-button>
-          <el-button @click="handleLike"><svg-icon icon-class="xihuan" :class="{'red-icon': isLike}"/> 999+</el-button>
+          <el-button @click="handleLike"><svg-icon icon-class="xihuan" :class="{'red-icon': isLike}" /> 999+</el-button>
           <el-button @click="handleDownload"><svg-icon icon-class="download" />下载</el-button>
         </el-row>
       </div>
@@ -43,10 +43,9 @@
             v-model="dateText"
             type="date"
             placeholder=""
-            :clearable='false'
+            :clearable="false"
             @change="changeDate"
-          >
-          </el-date-picker>
+          />
           <el-button type="info" icon="el-icon-arrow-left" circle @click="lastDay" />
           <el-button type="info" circle @click="randomDay"><svg-icon icon-class="random" /></el-button>
           <el-button type="info" icon="el-icon-arrow-right" :disabled="nextButtonDisable" circle @click="nextDay" />
@@ -60,11 +59,11 @@
       width="30%"
     >
       <el-input
+        v-model="shareText"
         type="textarea"
         :rows="3"
         placeholder="请输入内容"
-        v-model="shareText">
-      </el-input>
+      />
       <span slot="footer" class="dialog-footer">
         <el-button @click="shareDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="handleClipboard($event)">复 制</el-button>
@@ -77,9 +76,8 @@
 
 <script>
 import clipboard from '@/utils/clipboard'
-import { commonGetOne } from '@/utils/common_curd';
-import { formatDate, randomDate } from '@/utils/datetime';
-
+import { commonGetOne } from '@/utils/common_curd'
+import { formatDate, randomDate } from '@/utils/datetime'
 
 export default {
   components: {
@@ -88,8 +86,8 @@ export default {
     return {
       apiPath: 'bingwappers/',
       detail: {},
-      date: new Date(this.$route.params.date.replace("-","/")),
-      dateText: this.$route.params.date.replace("-","/"),
+      date: new Date(this.$route.params.date.replace('-', '/')),
+      dateText: this.$route.params.date.replace('-', '/'),
       isLike: true,
       shareDialogVisible: false,
       shareText: '',
@@ -102,8 +100,21 @@ export default {
         bing: 'https://cn.bing.com/search?q=',
         google: 'https://www.google.com.hk/search?q=',
         baidu: 'https://www.baidu.com/s?wd='
-      },
-    };
+      }
+    }
+  },
+  computed: {
+    nextButtonDisable: function() {
+      return formatDate(new Date()) === formatDate(this.date)
+    },
+    bgUrl: function() {
+      return this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
+    }
+  },
+  watch: {
+    $route() {
+      this.getDetail()
+    }
   },
   created() {
     this.getDetail()
@@ -111,8 +122,8 @@ export default {
   methods: {
     getDetail() {
       this.dateText = formatDate(this.$route.params.date)
-      let url_path = this.apiUrl + this.apiPath
-      let parmas = {}
+      const url_path = this.apiUrl + this.apiPath
+      const parmas = {}
       parmas['date'] = this.$route.params.date
       commonGetOne(this, url_path, parmas)
     },
@@ -127,7 +138,7 @@ export default {
       this.changeDate()
     },
     randomDay() {
-      let start_date = new Date('2016/08/08')
+      const start_date = new Date('2016/08/08')
       this.date = randomDate(start_date, new Date())
       this.changeDate()
     },
@@ -140,14 +151,14 @@ export default {
       clipboard(this.shareText, event)
     },
     handleBack() {
-      this.$router.push({ name: 'bingwapper-index'})
+      this.$router.push({ name: 'bingwapper-index' })
     },
     handleShare() {
       this.shareText = `#必应壁纸# ${this.detail.date} / ${this.detail.author} \n${window.location.href}`
       this.shareDialogVisible = true
     },
     handleDownload() {
-      let url = this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
+      const url = this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
       window.open(url)
     },
     handleLike() {
@@ -168,19 +179,6 @@ export default {
     handleSearch() {
       window.open(this.engine_url[this.engine] + this.input, '_blank')
       this.input = ''
-    },
-  },
-  computed: {
-    nextButtonDisable: function () {
-      return formatDate(new Date()) === formatDate(this.date) ? true : false
-    },
-    bgUrl: function () {
-      return this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
-    }
-  },
-  watch: {
-    $route() {
-      this.getDetail()
     }
   }
 }

@@ -33,42 +33,39 @@ export function debounce(func, wait, immediate) {
   }
 }
 
-
 export function jsonToQueryString(json) {
   return '' +
     Object.keys(json).map(function(key) {
       return encodeURIComponent(key) + '=' +
-        encodeURIComponent(json[key]);
-    }).join('&');
+        encodeURIComponent(json[key])
+    }).join('&')
 }
-
 
 export function queryStringToJson(string) {
-  var obj = {},
-    pairs = string.split('&'),
-    d = decodeURIComponent,
-    name,
-    value;
+  var obj = {}
+  var pairs = string.split('&')
+  var d = decodeURIComponent
+  var name
+  var value
   for (var i in pairs) {
-    var pair = pairs[i].split('=');
-    name = d(pair[0]);
-    value = d(pair[1]);
-    obj[name] = value;
+    var pair = pairs[i].split('=')
+    name = d(pair[0])
+    value = d(pair[1])
+    obj[name] = value
   }
-  return obj;
+  return obj
 }
-
 
 export function urlJoinParams(url, params) {
   var paramList = []
   for (var key in params) {
     if (params[key] !== '') {
       paramList.push(encodeURIComponent(key) + '=' +
-        encodeURIComponent(params[key]));
+        encodeURIComponent(params[key]))
     }
   }
   if (paramList.length) {
-    return url.split('#', 1)[0] + '#' + paramList.join('&');
+    return url.split('#', 1)[0] + '#' + paramList.join('&')
   } else {
     return url.split('#', 1)[0]
   }
@@ -94,27 +91,26 @@ export function handleUrlParams(vue_this) {
   }
 }
 
-
 export function changeOrdering(vue_this, field) {
   if (vue_this.orderingField === field) {
     if (vue_this.orderingValue === -1) {
-      vue_this.orderingValue = 0;
+      vue_this.orderingValue = 0
     } else if (vue_this.orderingValue === 1) {
-      vue_this.orderingValue = -1;
+      vue_this.orderingValue = -1
     } else {
-      vue_this.orderingValue = 1;
+      vue_this.orderingValue = 1
     }
   } else {
-    vue_this.orderingField = field;
-    vue_this.orderingValue = 1;
+    vue_this.orderingField = field
+    vue_this.orderingValue = 1
   }
 
   if (vue_this.orderingValue === -1) {
-    vue_this.filters['ordering'] = '-' + vue_this.orderingField;
+    vue_this.filters['ordering'] = '-' + vue_this.orderingField
   } else if (vue_this.orderingValue === 1) {
-    vue_this.filters['ordering'] = vue_this.orderingField;
+    vue_this.filters['ordering'] = vue_this.orderingField
   } else {
-    delete vue_this.filters['ordering'];
+    delete vue_this.filters['ordering']
   }
 }
 

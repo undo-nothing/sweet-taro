@@ -9,7 +9,7 @@
           text-color="#fff"
           active-text-color="#fff"
         >
-          <el-menu-item index="1" ><i class="el-icon-menu" /><span>主站</span></el-menu-item>
+          <el-menu-item index="1"><i class="el-icon-menu" /><span>主站</span></el-menu-item>
           <el-menu-item index="2">
             <span>动画</span></el-menu-item>
           <el-menu-item index="3"><span>漫画</span></el-menu-item>
@@ -24,14 +24,14 @@
       </el-col>
       <el-col :xs="0" :sm="2" :md="4" :lg="6" :xl="6">
         <div class="nav-search-box">
-          <el-input placeholder="请输入内容" v-model="search.value" class="nav-search">
-            <el-select v-model="search.type" slot="prepend" placeholder="请选择">
-              <el-option label="动画" value="1"></el-option>
-              <el-option label="漫画" value="2"></el-option>
-              <el-option label="游戏" value="3"></el-option>
-              <el-option label="壁纸" value="3"></el-option>
+          <el-input v-model="search.value" placeholder="请输入内容" class="nav-search">
+            <el-select slot="prepend" v-model="search.type" placeholder="请选择">
+              <el-option label="动画" value="1" />
+              <el-option label="漫画" value="2" />
+              <el-option label="游戏" value="3" />
+              <el-option label="壁纸" value="3" />
             </el-select>
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button slot="append" icon="el-icon-search" />
           </el-input>
         </div>
       </el-col>
@@ -51,8 +51,8 @@
         </div>
       </el-col>
     </el-row>
-    <div class="banner-area" >
-      <div class="taper-line"></div>
+    <div class="banner-area">
+      <div class="taper-line" />
     </div>
   </div>
 </template>
@@ -67,8 +67,8 @@ export default {
     return {
       isMini: this.mini,
       activeIndex: '1',
-      search: {},
-    };
+      search: {}
+    }
   },
   created() {
   },

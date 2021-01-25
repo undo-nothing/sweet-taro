@@ -15,8 +15,8 @@ export const dataShowMixin = {
       total: 0,
       page: 1,
       limit: 12,
-      pageSizes: [12, 24, 36, 48],
-    };
+      pageSizes: [12, 24, 36, 48]
+    }
   },
   created() {
     this.init()
@@ -26,27 +26,27 @@ export const dataShowMixin = {
   methods: {
     // 获取
     fetchList() {
-      let urlPath = this.apiUrl + this.apiPath
+      const urlPath = this.apiUrl + this.apiPath
       commonFetchList(this, urlPath, this.filters)
     },
     handleOrderClick(field) {
       changeOrdering(this, field)
       var newUrl = urlJoinParams(this.$route.path, this.filters)
-      this.$router.push({ path: newUrl})
+      this.$router.push({ path: newUrl })
     },
     handleFilterClick(kwargs) {
       for (var k in kwargs) {
-        this.filters[k] = kwargs[k].toString();
+        this.filters[k] = kwargs[k].toString()
       }
       var newUrl = urlJoinParams(this.$route.path, this.filters)
-      this.$router.push({ path: newUrl})
+      this.$router.push({ path: newUrl })
     },
     handlePageChange(params) {
       this.filters['page'] = params['page']
       this.filters['limit'] = params['limit']
       var newUrl = urlJoinParams(this.$route.path, this.filters)
-      this.$router.push({ path: newUrl})
-    },
+      this.$router.push({ path: newUrl })
+    }
   },
   watch: {
     $route() {

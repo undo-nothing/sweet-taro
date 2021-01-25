@@ -31,7 +31,7 @@
             </li>
           </ul>
         </div>
-        <span class="tab-line"></span>
+        <span class="tab-line" />
         <div class="middle-link">
           <span v-for="genre in 20" :key="genre">
             <div class="item">
@@ -39,7 +39,7 @@
             </div>
           </span>
         </div>
-        <span class="tab-line"></span>
+        <span class="tab-line" />
         <div class="friendship-link">
           <span>
             <div class="item"><a class="name"><span>测试</span></a></div>
@@ -63,20 +63,20 @@
       </div>
       <ul class="sort-banner clearfix">
         <li @click="orderChange('date')">
-          <sort-item :class='dateSortClass'>发行日期</sort-item>
+          <sort-item :class="dateSortClass">发行日期</sort-item>
         </li>
         <li>
-          <sort-item class=''>收藏数量</sort-item>
+          <sort-item class="">收藏数量</sort-item>
         </li>
         <li>
-          <sort-item class=''>喜欢数量</sort-item>
+          <sort-item class="">喜欢数量</sort-item>
         </li>
       </ul>
       <div id="main_video">
         <el-row>
           <el-col :span="19">
             <div class="common-list-box">
-              <div v-for="item in list" :key="item.id" @click="gotoDetailPage(item.date)" class="wapper-card-small">
+              <div v-for="item in list" :key="item.id" class="wapper-card-small" @click="gotoDetailPage(item.date)">
                 <div class="card-pic">
                   <a>
                     <img :src="getWapperUrl(item.filename)" alt="">
@@ -99,22 +99,22 @@
                 <div class="filter-block">
                   <div class="filter-name">年</div>
                   <ul class="filter-item-wrapper">
-                    <li @click="filterYear('')" title="全部" :class="[{ 'on': !filters.year }, 'filter-item']">全部</li>
-                    <li v-for="year in years" title="year" :key="year" @click="filterYear(year)" :class="[{ 'on': filters.year === year }, 'filter-item']">{{ year }}</li>
+                    <li title="全部" :class="[{ 'on': !filters.year }, 'filter-item']" @click="filterYear('')">全部</li>
+                    <li v-for="year in years" :key="year" title="year" :class="[{ 'on': filters.year === year }, 'filter-item']" @click="filterYear(year)">{{ year }}</li>
                   </ul>
                 </div>
                 <div class="filter-block">
                   <div class="filter-name">月</div>
                   <ul class="filter-item-wrapper">
-                    <li @click="filterMonth('')" title="全部"  :class="[{ 'on': !filters.month }, 'filter-item']">全部</li>
-                    <li v-for="month in 12" title="month" :key="month" @click="filterMonth(month)" :class="[{ 'on': filters.month === month }, 'filter-item']">{{ month }}</li>
+                    <li title="全部" :class="[{ 'on': !filters.month }, 'filter-item']" @click="filterMonth('')">全部</li>
+                    <li v-for="month in 12" :key="month" title="month" :class="[{ 'on': filters.month === month }, 'filter-item']" @click="filterMonth(month)">{{ month }}</li>
                   </ul>
                 </div>
                 <div class="filter-block">
                   <div class="filter-name">日</div>
                   <ul class="filter-item-wrapper">
-                    <li @click="filterDay('')" title="全部" :class="[{ 'on': !filters.day }, 'filter-item']">全部</li>
-                    <li v-for="day in 31" title="day" :key="day" @click="filterDay(day)" :class="[{ 'on': filters.day === day }, 'filter-item']">{{ day }}</li>
+                    <li title="全部" :class="[{ 'on': !filters.day }, 'filter-item']" @click="filterDay('')">全部</li>
+                    <li v-for="day in 31" :key="day" title="day" :class="[{ 'on': filters.day === day }, 'filter-item']" @click="filterDay(day)">{{ day }}</li>
                   </ul>
                 </div>
               </div>
@@ -156,13 +156,32 @@ export default {
       // 分类筛选数据
       filterList: [],
       orderingField: 'date',
-      orderingValue: 1,
-    };
+      orderingValue: 1
+    }
+  },
+  computed: {
+    // 计算属性的 getter
+    dateSortClass: function() {
+      // `this` 指向 vm 实例
+      if (this.orderingField === 'date') {
+        if (this.orderingValue === 1) {
+          return 'ascending'
+        } else if (this.orderingValue === -1) {
+          return 'descending'
+        }
+      }
+      return ''
+    }
+  },
+  watch: {
+    $route() {
+      this.getList()
+    }
   },
   created() {
-    this.fetchList();
-    let today = new Date;
-    let nowYear = today.getFullYear()
+    this.fetchList()
+    const today = new Date()
+    const nowYear = today.getFullYear()
     for (var i = 0; i < 8; i++) {
       this.years.push(nowYear - i)
     }
@@ -170,8 +189,8 @@ export default {
   methods: {
     // 获取
     fetchList() {
-      let url_path = '/v1.0/bingwappers/'
-      let params = this.filters
+      const url_path = '/v1.0/bingwappers/'
+      const params = this.filters
       if (this.orderingValue === -1) {
         params['ordering'] = '-' + this.orderingField
       } else if (this.orderingValue === 1) {
@@ -187,53 +206,34 @@ export default {
       this.$router.push({ path: '/bingwapper/' + date })
     },
     getWapperUrl(filename) {
-      return "http://127.0.0.1:8000/media/bingwapper/" + filename + ".jpg"
+      return 'http://127.0.0.1:8000/media/bingwapper/' + filename + '.jpg'
     },
     orderChange(field) {
       if (this.orderingField === field) {
         if (this.orderingValue === -1) {
-          this.orderingValue = 0;
+          this.orderingValue = 0
         } else if (this.orderingValue === 1) {
-          this.orderingValue = -1;
+          this.orderingValue = -1
         } else {
-          this.orderingValue = 1;
+          this.orderingValue = 1
         }
       } else {
-        this.orderingField = field;
-        this.orderingValue = 0;
+        this.orderingField = field
+        this.orderingValue = 0
       }
-      this.fetchList();
+      this.fetchList()
     },
     filterYear(year) {
-      this.filters['year'] = year;
-      this.fetchList();
+      this.filters['year'] = year
+      this.fetchList()
     },
     filterMonth(month) {
-      this.filters['month'] = month;
-      this.fetchList();
+      this.filters['month'] = month
+      this.fetchList()
     },
     filterDay(day) {
-      this.filters['day'] = day;
-      this.fetchList();
-    },
-  },
-  computed: {
-    // 计算属性的 getter
-    dateSortClass: function () {
-      // `this` 指向 vm 实例
-      if (this.orderingField === 'date') {
-        if (this.orderingValue === 1) {
-          return 'ascending';
-        } else if (this.orderingValue === -1) {
-          return 'descending';
-        }
-      }
-      return ''
-    }
-  },
-  watch: {
-    $route() {
-      this.getList()
+      this.filters['day'] = day
+      this.fetchList()
     }
   }
 }
@@ -390,8 +390,6 @@ export default {
   height: 44px;
   margin-left: 20px;
 }
-
-
 
 .filter-wrapper .filter-title {
   height: 44px;

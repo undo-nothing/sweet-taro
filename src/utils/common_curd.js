@@ -1,17 +1,16 @@
 import { commonFetchListApi, commonRetrieveApi, commonCreateApi, commonUpdateApi, commonDeleteApi } from '@/api/common_curd'
 
-
 export function commonFetchList(vue_this, url, params) {
-  let filter_params = {}
-  for(var key in params){
+  const filter_params = {}
+  for (var key in params) {
     if (params[key] !== '') {
       filter_params[key] = params[key]
     }
   }
-  if (filter_params.page == undefined) {
+  if (filter_params.page === undefined) {
     filter_params.page = vue_this.page
   }
-  if (filter_params.limit == undefined) {
+  if (filter_params.limit === undefined) {
     filter_params.limit = vue_this.limit
   }
   commonFetchListApi(url, filter_params).then(response => {
@@ -23,16 +22,16 @@ export function commonFetchList(vue_this, url, params) {
 }
 
 export function commonGetOne(vue_this, url, params) {
-  let filter_params = {}
-  for(var key in params){
+  const filter_params = {}
+  for (var key in params) {
     if (params[key] !== '') {
       filter_params[key] = params[key]
     }
   }
-  if (filter_params.page == undefined) {
+  if (filter_params.page === undefined) {
     filter_params.page = vue_this.page
   }
-  if (filter_params.limit == undefined) {
+  if (filter_params.limit === undefined) {
     filter_params.limit = vue_this.limit
   }
   commonFetchListApi(url, filter_params).then(response => {
@@ -46,10 +45,10 @@ export function commonGetOne(vue_this, url, params) {
 }
 
 export function commonGetDeatil(vue_this, url) {
-  vue_this.loading = true;
+  vue_this.loading = true
   commonRetrieveApi(url).then(response => {
-    vue_this.detail = response.data;
-    vue_this.loading = false;
+    vue_this.detail = response.data
+    vue_this.loading = false
   })
 }
 
@@ -60,7 +59,7 @@ export function commonCreate(vue_this, url) {
       vue_this.addLoading = true
       const datas = Object.assign({}, vue_this.addForm)
       console.log(datas)
-      datas['company'] = 2;
+      datas['company'] = 2
       commonCreateApi(url, datas).then(() => {
         vue_this.addLoading = false
         vue_this.$message({
@@ -78,7 +77,7 @@ export function commonUpdate(vue_this, url) {
   vue_this.$refs.editForm.validate((valid) => {
     if (valid) {
       vue_this.editLoading = true
-      let post_data = Object.assign({}, vue_this.editForm)
+      const post_data = Object.assign({}, vue_this.editForm)
       commonUpdateApi(url, post_data).then(() => {
         vue_this.editLoading = false
         vue_this.$message({
@@ -106,22 +105,22 @@ export function commonDelete(vue_this, url) {
       })
       vue_this.fetchList()
     })
-    .catch((error) => {
-      let res = error.response
-      vue_this.listLoading = false
-      vue_this.$message({
-        message: res.data.detail,
-        type: 'error'
+      .catch((error) => {
+        const res = error.response
+        vue_this.listLoading = false
+        vue_this.$message({
+          message: res.data.detail,
+          type: 'error'
+        })
+        vue_this.fetchList()
       })
-      vue_this.fetchList()
-    })
   })
 }
 
 export function commonBatchAction(vue_this, url, action_name) {
   var ids = vue_this.sels.map(item => item.id).toString()
   console.log(url, action_name, ids)
-  if (ids === "") {
+  if (ids === '') {
     vue_this.$message({
       message: '未选中数据',
       type: 'warning'
