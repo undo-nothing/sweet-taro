@@ -40,7 +40,7 @@ export default {
     },
     layout: {
       type: String,
-      default: 'total, sizes, prev, pager, next, jumper'
+      default: 'pager, next, ->, jumper, sizes, total'
     },
     background: {
       type: Boolean,
@@ -93,9 +93,14 @@ export default {
 <style scoped>
 .pagination-container {
   background: #fff;
-  padding: 0px 20px;
+  padding: 0px 0px;
+  padding-right: 20px;
 }
 .pagination-container.hidden {
   display: none;
+}
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+    background-color: #00a1d6;
+    color: #FFFFFF;
 }
 </style>

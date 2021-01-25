@@ -88,3 +88,13 @@
 .row-cell-mini {
   padding: 0px !important;
 }
+
+.el-pagination__editor.el-input .el-input__inner {
+    height: 28px;
+}
+
+.el-pagination.is-background .el-pager li {
+  background-color: #FFFFFF;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}

@@ -30,8 +30,10 @@ const routes = [
     props: (route) => ({ date: route.query.date })
   },
   {
-    path: '/search',
-    component: () => import('@/views/search'),
+    path: '/search/:date',
+    name: 'search-page',
+    component: () => import('@/views/bingwapper/search'),
+    props: (route) => ({ date: route.query.date })
   },
   {
     path: '/',
@@ -45,19 +47,7 @@ const routes = [
     path: '/icon/index',
     name: 'Icons',
     component: () => import('@/views/icons/index'),
-  },
-  // {
-  //   path: '/icon',
-  //   // component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/icons/index'),
-  //       name: 'Icons',
-  //       meta: { title: 'Icons', icon: 'icon', noCache: true }
-  //     }
-  //   ]
-  // },
+  }
 ]
 
 // 避免重复redundant navigation报错

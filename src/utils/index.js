@@ -67,7 +67,11 @@ export function urlJoinParams(url, params) {
         encodeURIComponent(params[key]));
     }
   }
-  return url.split('#', 1)[0] + '#' + paramList.join('&');
+  if (paramList.length) {
+    return url.split('#', 1)[0] + '#' + paramList.join('&');
+  } else {
+    return url.split('#', 1)[0]
+  }
 }
 
 export function handleUrlParams(vue_this) {
@@ -81,6 +85,13 @@ export function handleUrlParams(vue_this) {
   var rets = splitOrdering(vue_this.filters)
   vue_this.orderingField = rets[0]
   vue_this.orderingValue = rets[1]
+
+  if (vue_this.filters['page']) {
+    vue_this['page'] = parseInt(vue_this.filters['page'])
+  }
+  if (vue_this.filters['limit']) {
+    vue_this.limit = parseInt(vue_this.filters['limit'])
+  }
 }
 
 

@@ -3,7 +3,7 @@
     <div class="header-box">
       <div class="header-left">
         <el-row>
-          <el-button icon="el-icon-arrow-left" @click="handleBack">INDEX</el-button>
+          <el-button icon="el-icon-arrow-left" @click="handleBack">首页</el-button>
         </el-row>
       </div>
       <div class="header-right">
@@ -14,6 +14,27 @@
         </el-row>
       </div>
     </div>
+
+    <div class="search_box">
+      <div>
+        <el-image
+          :src="logo_src"
+          fix="contain"
+          class="search_logo"
+        />
+      </div>
+      <div class="search_input" @keyup.enter="handleSearch">
+        <el-input v-model="input" :placeholder="input_placeholder">
+          <el-select slot="prepend" v-model="engine" placeholder="" @change="changeEngine">
+            <el-option label="Baidu" value="baidu" />
+            <el-option label="Google" value="google" />
+            <el-option label="Bing" value="bing" />
+          </el-select>
+          <el-button slot="append" size="large" @click="handleSearch"><svg-icon icon-class="search" class="search_btn_icon" /></el-button>
+        </el-input>
+      </div>
+    </div>
+
     <div class="footer-box">
       <div class="footer-right">
         <el-row>
@@ -72,13 +93,22 @@ export default {
       isLike: true,
       shareDialogVisible: false,
       shareText: '',
+
+      logo_src: this.mediaBaseUrl + 'image/logo_bing.png',
+      input_placeholder: '',
+      input: '',
+      engine: 'baidu',
+      engine_url: {
+        bing: 'https://cn.bing.com/search?q=',
+        google: 'https://www.google.com.hk/search?q=',
+        baidu: 'https://www.baidu.com/s?wd='
+      },
     };
   },
   created() {
     this.getDetail()
   },
   methods: {
-    // 获取
     getDetail() {
       this.dateText = formatDate(this.$route.params.date)
       let url_path = this.apiUrl + this.apiPath
@@ -90,7 +120,7 @@ export default {
       if (date) {
         this.date = date
       }
-      this.$router.push({ name: 'bingwapper-detail', params: { date: formatDate(this.date) }})
+      this.$router.push({ name: 'search-page', params: { date: formatDate(this.date) }})
     },
     lastDay() {
       this.date.setDate(this.date.getDate() - 1)
@@ -98,7 +128,6 @@ export default {
     },
     randomDay() {
       let start_date = new Date('2016/08/08')
-      // newDate = randomDate(start_date, new Date())
       this.date = randomDate(start_date, new Date())
       this.changeDate()
     },
@@ -126,10 +155,22 @@ export default {
     },
     getShareText() {
       return this.shareText
-    }
+    },
+    changeEngine(value) {
+      if (value === 'bing') {
+        this.logo_src = this.mediaBaseUrl + 'image/logo_bing.png'
+      } else if (value === 'google') {
+        this.logo_src = this.mediaBaseUrl + 'image/logo_google.png'
+      } else {
+        this.logo_src = this.mediaBaseUrl + 'image/logo_bing.png'
+      }
+    },
+    handleSearch() {
+      window.open(this.engine_url[this.engine] + this.input, '_blank')
+      this.input = ''
+    },
   },
   computed: {
-    // 计算属性的 getter
     nextButtonDisable: function () {
       return formatDate(new Date()) === formatDate(this.date) ? true : false
     },
@@ -181,6 +222,28 @@ export default {
   }
 }
 
+.search_box {
+  width: 850px;
+  position: absolute;
+  left: 15%;
+  top: 220px;
+  margin-left: 50px;
+
+  .search_logo {
+    width: 120px;
+    float: left;
+  }
+
+  .search_input {
+    width: 700px;
+    float: right;
+  }
+  .search_btn_icon {
+    font-size: 28px;
+    color: rgb(0, 125, 170)
+  }
+}
+
 .footer-box {
   color: #333;
   text-align: center;
@@ -210,5 +273,50 @@ export default {
   background-color: rgba(34,34,34,.55);
   border-color: transparent;
   color: #FFFFFF;
+}
+
+.search_box >>> .el-input-group__append, .search_box >>> .el-input__inner, .search_box >>>  .el-input-group__prepend {
+  background-color: rgb(255, 255, 255);
+  border-color: transparent;
+  height: 50px;
+}
+</style>
+
+<style scoped>
+@media screen and (min-height: 1081px){
+  .search_box {
+    top: 280px;
+    width: 850px;
+  }
+  .search_box .search_input {
+    width: 700px;
+  }
+  .search_box .search_logo {
+    width: 130px;
+  }
+  .search_box .search_btn_icon {
+    font-size: 30px;
+  }
+  .search_box >>> .el-input-group__append, .search_box >>> .el-input__inner, .search_box >>>  .el-input-group__prepend {
+    height: 59px;
+  }
+}
+@media screen and (max-height: 901px){
+  .search_box {
+    top: 190px;
+    width: 670px;
+  }
+  .search_box .search_input {
+    width: 550px;
+  }
+  .search_box .search_logo {
+    width: 100px;
+  }
+  .search_box .search_btn_icon {
+    font-size: 25px;
+  }
+  .search_box >>> .el-input-group__append, .search_box >>> .el-input__inner, .search_box >>>  .el-input-group__prepend {
+    height: 43px;
+  }
 }
 </style>

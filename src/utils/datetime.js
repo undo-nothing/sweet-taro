@@ -34,6 +34,5 @@ export function randomDate(start, end) {
     let max = parseInt((end - start) / (1000 * 60 * 60 * 24));
     let randomNumber = Math.floor(Math.random() * (max + 1));
     retDate.setDate(start.getDate() + randomNumber)
-    console.log(randomNumber, retDate)
     return retDate
 }

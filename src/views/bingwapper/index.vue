@@ -1,6 +1,7 @@
 <template>
   <div>
     <bili-header :mini="false" />
+
     <div class="main-area">
       <div class="sub-nav-wrap">
         <div class="sub-nav-link">
@@ -12,19 +13,19 @@
               </a>
             </li>
             <li>
-              <a href="/">
+              <a :href="'/bingwapper/' + todayDateStr()">
                 <div class="round"><i class="el-icon-s-grid" style="color: #fff" /></div>
                 <span>分类</span>
               </a>
             </li>
             <li>
-              <a href="/">
+              <a :href="'/bingwapper/' + todayDateStr()">
                 <div class="round"><i class="el-icon-s-data" style="color: #fff" /></div>
                 <span>排行</span>
               </a>
             </li>
             <li>
-              <a href="/">
+              <a :href="'/bingwapper/' + todayDateStr()">
                 <div class="round"><i class="el-icon-s-data" style="color: #fff" /></div>
                 <span>今日</span>
               </a>
@@ -32,36 +33,13 @@
           </ul>
         </div>
         <span class="tab-line"></span>
-        <div class="middle-link">
-          <span v-for="genre in 20" :key="genre">
-            <div class="item">
-              <a class="name"><span>{{ }}测试<em>999+</em></span></a>
-            </div>
-          </span>
-        </div>
+        <middle-link></middle-link>
         <span class="tab-line"></span>
-        <div class="friendship-link">
-          <span>
-            <div class="item"><a class="name"><span>测试</span></a></div>
-          </span>
-          <span>
-            <div class="item"><a class="name"><span>测试</span></a></div>
-          </span>
-          <span>
-            <div class="item"><a class="name"><span>测试</span></a></div>
-          </span>
-          <span>
-            <div class="item"><a class="name"><span>测试</span></a></div>
-          </span>
-          <span>
-            <div class="item"><a class="name"><span>测试</span></a></div>
-          </span>
-          <span>
-            <div class="item"><a class="name"><span>测试</span></a></div>
-          </span>
-        </div>
+        <friendship-link class="friendship-link">
+        </friendship-link>
       </div>
-      <ul class="sort-banner clearfix">
+
+      <ul class="sort-banner">
         <li @click="handleOrderClick('date')">
           <sort-item field="date" :ordering-field="orderingField" :ordering-value="orderingValue">发行日期</sort-item>
         </li>
@@ -72,15 +50,16 @@
           <sort-item field="like" :ordering-field="orderingField" :ordering-value="orderingValue">喜欢数量</sort-item>
         </li>
       </ul>
+
       <div id="main_video">
         <el-row>
           <el-col :span="19" :xl="20">
             <div class="common-list-box">
               <div v-for="item in list" :key="item.id" @click="gotoDetailPage(item.date)" class="wapper-card-small">
                 <div class="card-pic">
-                  <a>
+                  <div>
                     <img :src="getWapperUrl(item.filename)" alt="">
-                  </a>
+                  </div>
                 </div>
                 <div class="card-content">
                   <div class="content-body">{{ item.title }}</div>
@@ -100,9 +79,10 @@
               </div>
             </div>
             <div class="page-box">
-              <pagination v-show="total>0" :total="total" :page.sync="page" :limit.sync="limit" :page-sizes="pageSizes" @pagination="fetchList" />
+              <pagination v-show="total>0" :total="total" :page.sync="page" :limit.sync="limit" :page-sizes="pageSizes" @pagination="handlePageChange" />
             </div>
           </el-col>
+
           <el-col :span="5" :xl="4">
             <div class="filter-wrapper">
               <div class="filter-title">筛选</div>
@@ -111,21 +91,21 @@
                   <div class="filter-name">年</div>
                   <ul class="filter-item-wrapper">
                     <li @click="handleFilterClick({'year': ''})" title="全部" :class="[{ 'on': !filters.year }, 'filter-item']">全部</li>
-                    <li v-for="year in years" :title="year" :key="year" @click="handleFilterClick({'year': year})" :class="[{ 'on': filters.year === year }, 'filter-item']">{{ year }}</li>
+                    <li v-for="year in years" :title="year" :key="year" @click="handleFilterClick({'year': year})" :class="[{ 'on': filters.year === year.toString() }, 'filter-item']">{{ year }}</li>
                   </ul>
                 </div>
                 <div class="filter-block">
                   <div class="filter-name">月</div>
                   <ul class="filter-item-wrapper">
                     <li @click="handleFilterClick({'month': ''})" title="全部"  :class="[{ 'on': !filters.month }, 'filter-item']">全部</li>
-                    <li v-for="month in 12" :title="month" :key="month" @click="handleFilterClick({'month': month})" :class="[{ 'on': filters.month === month }, 'filter-item']">{{ month }}</li>
+                    <li v-for="month in 12" :title="month" :key="month" @click="handleFilterClick({'month': month})" :class="[{ 'on': filters.month === month.toString() }, 'filter-item']">{{ month }}</li>
                   </ul>
                 </div>
                 <div class="filter-block">
                   <div class="filter-name">日</div>
                   <ul class="filter-item-wrapper">
                     <li @click="handleFilterClick({'day': ''})" title="全部" :class="[{ 'on': !filters.day }, 'filter-item']">全部</li>
-                    <li v-for="day in 31" :title="day" :key="day" @click="handleFilterClick({'day': day})" :class="[{ 'on': filters.day === day }, 'filter-item']">{{ day }}</li>
+                    <li v-for="day in 31" :title="day" :key="day" @click="handleFilterClick({'day': day})" :class="[{ 'on': filters.day === day.toString() }, 'filter-item']">{{ day }}</li>
                   </ul>
                 </div>
               </div>
@@ -134,64 +114,43 @@
         </el-row>
       </div>
     </div>
+
+    <el-backtop :right="100" :bottom="100">
+      <div>
+        <img :src="mediaBaseUrl + 'image/rocket_top.png'">
+      </div>
+    </el-backtop>
   </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination'
 import BiliHeader from '@/components/BiliHeader'
+import FriendshipLink from '@/components/FriendshipLink'
+import MiddleLink from '@/components/MiddleLink'
 import SortItem from '@/components/SortItem'
-import { commonFetchList } from '@/utils/common_curd'
-import { urlJoinParams, handleUrlParams, changeOrdering } from '@/utils'
+import { dataShowMixin } from '@/mixin/datashow'
+import { formatDate } from '@/utils/datetime';
 
 export default {
+  mixins: [dataShowMixin],
   components: {
     Pagination,
     BiliHeader,
-    SortItem
+    FriendshipLink,
+    MiddleLink,
+    SortItem,
   },
   data() {
     return {
-      // 分类
-      genreList: [],
-      // 数据显示
-      list: null,
-      listLoading: true,
-
-      // 必要属性
-      filters: {},
-      orderingField: '',
-      orderingValue: 0,
-      total: 0,
-      page: 1,
-      limit: 12,
-      pageSizes: [12, 24, 36, 48],
-
       //页面自定义
+      apiPath: 'bingwappers/',
       years: [],
+      todayDate: new Date(),
     };
   },
-  created() {
-    this.initYears()
-    handleUrlParams(this)
-    this.fetchList();
-  },
   methods: {
-    // 获取
-    fetchList() {
-      let urlPath = this.apiUrl + 'bingwappers/'
-      commonFetchList(this, urlPath, this.filters)
-    },
-    handleOrderClick(field) {
-      changeOrdering(this, field)
-      var newUrl = urlJoinParams(this.$route.path, this.filters)
-      this.$router.push({ path: newUrl})
-    },
-    handleFilterClick(kwargs) {
-      for (var k in kwargs) {
-        this.filters[k] = kwargs[k];
-      }
-      var newUrl = urlJoinParams(this.$route.path, this.filters)
-      this.$router.push({ path: newUrl})
+    init() {
+      this.initYears()
     },
     gotoDetailPage(date) {
       window.open('/bingwapper/' + date, '_blank');
@@ -205,17 +164,15 @@ export default {
       for (var i = 0; i < 8; i++) {
         this.years.push(nowYear - i)
       }
-    }
-  },
-  watch: {
-    $route() {
-      handleUrlParams(this)
-      this.fetchList()
-    }
+    },
+    todayDateStr() {
+      return formatDate(this.todayDate)
+    },
   }
 }
 </script>
 <style lang="scss" scoped>
+
 .sub-nav-wrap {
   display: inline-flex;
   align-items: center;
@@ -307,6 +264,7 @@ export default {
       }
     }
   }
+
 }
 
 .main-area {
@@ -315,7 +273,7 @@ export default {
   margin: auto;
 
   .page-box {
-    padding-top: 20px;
+    padding: 20px 0px 20px 0px;
   }
 }
 
@@ -336,9 +294,18 @@ export default {
   box-shadow: 0 5px 40px -1px rgba(2, 10, 18, .15);
   border-radius: 3px;
 
-  .card-pic a img {
+  .card-pic {
     width: 100%;
+    height: 73%;
     padding: 5px;
+    div {
+      width: 100%;
+      height: 100%;
+      background: gray;
+      img {
+        width: 100%;
+      }
+    }
   }
 
   .card-content {
