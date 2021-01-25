@@ -15,8 +15,7 @@ $subMenuActiveText:#f4f4f5;
 
 $menuBg:#304156;
 $subMenuBg:#1f2d3d;
-$subMenuActiveBg:#3d5777;
-$subMenuHoverBg:#3d5777;
+$menuHoverBg:#3d5777;
 
 $sideBarWidth: 210px;
 
@@ -28,7 +27,6 @@ $sideBarWidth: 210px;
   subMenuActiveText: $subMenuActiveText;
   menuBg: $menuBg;
   subMenuBg: $subMenuBg;
-  subMenuActiveBg: $subMenuActiveBg;
-  subMenuHoverBg: $subMenuHoverBg;
+  menuHoverBg: $menuHoverBg;
   sideBarWidth: $sideBarWidth;
 }

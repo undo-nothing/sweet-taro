@@ -47,7 +47,9 @@ const routes = [
     path: '/icon/index',
     name: 'Icons',
     component: () => import('@/views/icons/index')
-  }
+  },
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 // 避免重复redundant navigation报错

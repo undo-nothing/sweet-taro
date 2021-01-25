@@ -9,7 +9,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        vue$: "vue/dist/vue.esm.js",
+        vue$: 'vue/dist/vue.esm.js',
         '@': resolve('src')
       }
     }
@@ -31,5 +31,5 @@ module.exports = {
         symbolId: 'icon-[name]'
       })
       .end()
-  },
+  }
 }

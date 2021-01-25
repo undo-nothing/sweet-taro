@@ -91,7 +91,7 @@
 import Pagination from '@/components/Pagination'
 import BiliHeader from '@/components/BiliHeader'
 import { commonFetchList } from '@/utils/common_curd'
-import { commonFetchListApi } from '@/api/common_curd'
+import { commonFetchListApi } from '@/api/curd'
 
 export default {
   components: {

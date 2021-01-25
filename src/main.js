@@ -6,17 +6,26 @@ import router from './router'
 
 import '@/styles/index.scss' // global css
 import './icons' // icon
+import settings from '@/settings'
 
 // for debug mock data
 // require('./mock');
 
-// var apiBaseUrl = 'http://127.0.0.1:8000';
-var mediaBaseUrl = 'http://127.0.0.1:8000/media/'
-var apiUrl = 'http://127.0.0.1:8000/v1.0/'
+Vue.config.productionTip = false
+Vue.prototype.mediaBaseUrl = settings.mediaBaseUrl
+Vue.prototype.apiUrl = settings.baseUrl + '/v1.0/'
+
+console.log(settings.mediaBaseUrl, settings.baseUrl)
 
 Vue.config.productionTip = false
-Vue.prototype.mediaBaseUrl = mediaBaseUrl
-Vue.prototype.apiUrl = apiUrl
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title
+  } else {
+    document.title = settings.title
+  }
+  next()
+})
 
 new Vue({
   router,

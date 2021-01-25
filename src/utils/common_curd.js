@@ -1,4 +1,4 @@
-import { commonFetchListApi, commonRetrieveApi, commonCreateApi, commonUpdateApi, commonDeleteApi } from '@/api/common_curd'
+import { commonFetchListApi, commonFetchOneApi, commonCreateApi, commonUpdateApi, commonDeleteApi } from '@/api/curd'
 
 export function commonFetchList(vue_this, url, params) {
   const filter_params = {}
@@ -46,7 +46,7 @@ export function commonGetOne(vue_this, url, params) {
 
 export function commonGetDeatil(vue_this, url) {
   vue_this.loading = true
-  commonRetrieveApi(url).then(response => {
+  commonFetchOneApi(url).then(response => {
     vue_this.detail = response.data
     vue_this.loading = false
   })
