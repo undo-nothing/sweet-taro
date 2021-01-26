@@ -28,13 +28,49 @@
         <div class="line" />
         <div class="login-right">
           <div class="form-login">
-            <div class="input-box">
-              <div>
-                <div class="type-tab">
-                  <span class="active">密码登录</span>
-                  <span class="">短信登录</span></div>
-              </div>
-            </div>
+            <el-tabs v-model="loginForm.type" class="input-box">
+              <el-tab-pane label="密码登录" name="password">
+                <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
+                  <el-form-item prop="username">
+                    <el-input
+                      ref="username"
+                      v-model="loginForm.username"
+                      placeholder="用户名/手机号/邮箱"
+                      name="username"
+                      type="text"
+                    />
+                  </el-form-item>
+
+                  <el-form-item prop="password">
+                    <el-tooltip v-model="capsTooltip" content="Caps lock on" placement="right" manual>
+                      <el-input
+                        v-model="loginForm.password"
+                        placeholder="密码"
+                        name="password"
+                        type="password"
+                        @keyup.native="checkCapslock"
+                        @blur="capsTooltip=false"
+                        @keyup.enter.native="handleLogin"
+                      />
+                    </el-tooltip>
+                  </el-form-item>
+
+                  <el-form-item style="margin-bottom: 0px;">
+                    <el-checkbox v-model="remenberme">记住我</el-checkbox>
+                    <span style="color: #bbb; font-size: 12px; padding-right: 20px;"> 不是自己的电脑上不要勾选此项</span>
+                    <span class='link-type'> 无法验证？</span>
+                    <span class='link-type'> 忘记密码？</span>
+                  </el-form-item>
+
+                  <el-button type="primary" class="login-button" @click.native.prevent="handleLogin">登录</el-button>
+                  <el-button type="plain" class="login-button" @click.native.prevent="handleLogin">注册</el-button>
+
+                </el-form>
+              </el-tab-pane>
+              <el-tab-pane label="短信登录" name="phone">
+                短信登录
+              </el-tab-pane>
+            </el-tabs>
           </div>
 
         </div>
@@ -46,23 +82,74 @@
 <script>
 import BiliHeader from '@/components/BiliHeader'
 
+import { getJwtToken } from '@/api/user'
+import { setToken } from '@/utils/auth'
+
 export default {
   components: {
     BiliHeader
   },
   data() {
     return {
+      capsTooltip: false,
+      remenberme: true,
+      loginForm: {
+        type: 'password',
+        username: '',
+        password: ''
+      },
+      loginRules: {
+        username: [{ required: true, trigger: 'none', message: '请输入注册时用的邮箱或者手机号呀' }],
+        password: [{ required: true, trigger: 'none', message: '喵，你没输入密码么？' }]
+      },
+      addLoading: false,
     }
   },
   created() {
     console.log('created')
   },
   methods: {
+    handleLogin() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          console.log(this.loginForm)
+          getJwtToken(this.loginForm).then(response => {
+            var jwtToken = response.data.token
+            setToken(jwtToken)
+            this.$router.push({ path: this.redirect || '/admin/', query: this.otherQuery })
+          }).catch(error => {
+            console.log(error)
+          })
+        }
+      })
+    },
+    checkCapslock({ shiftKey, key } = {}) {
+      console.log(shiftKey, key)
+      if (key && key.length === 1) {
+        if (shiftKey && (key >= 'a' && key <= 'z') || !shiftKey && (key >= 'A' && key <= 'Z')) {
+          this.capsTooltip = true
+        } else {
+          this.capsTooltip = false
+        }
+      }
+      if (key === 'CapsLock' && this.capsTooltip === true) {
+        this.capsTooltip = false
+      }
+    },
+    getOtherQuery(query) {
+      return Object.keys(query).reduce((acc, cur) => {
+        if (cur !== 'redirect') {
+          acc[cur] = query[cur]
+        }
+        return acc
+      }, {})
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+
 .top-banner {
   background: #00a0d8;
   height: 86px;
@@ -145,7 +232,7 @@ export default {
 }
 
 .form-login .input-box {
-    margin-top: 50px;
+    margin-top: 35px;
     width: 414px;
 }
 
@@ -167,5 +254,24 @@ export default {
     -ms-flex-align: center;
     align-items: center;
     margin-bottom: 12px;
+}
+
+.el-form-item {
+  margin-bottom: 32px;
+}
+
+.login-button {
+  width: 200px;
+}
+
+</style>
+
+<style scoped>
+
+.login-right >>> .el-tabs__active-bar, .login-right >>> .el-tabs__nav-wrap::after {
+  height: 0px;
+}
+.login-right >>> .el-tabs__header {
+  margin-bottom: 4px;
 }
 </style>
