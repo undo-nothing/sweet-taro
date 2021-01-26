@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 import settings from '@/settings'
 
-const base_url = settings.baseUrl
+const api_base_url = settings.apiBaseUrl
 
 export function commonDownloadApi(url_path, params) {
   return request({
-    url: base_url + url_path,
+    url: api_base_url + url_path,
     method: 'get',
     params: params,
     responseType: 'blob'

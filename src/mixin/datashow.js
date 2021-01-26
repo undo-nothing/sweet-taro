@@ -26,7 +26,7 @@ export const dataShowMixin = {
   methods: {
     // 获取
     fetchList() {
-      const urlPath = this.apiUrl + this.apiPath
+      const urlPath = this.apiPath
       commonFetchList(this, urlPath, this.filters)
     },
     handleOrderClick(field) {

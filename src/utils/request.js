@@ -28,16 +28,16 @@ request.interceptors.response.use(
     return response
   },
   error => {
-    let message = error.message
-    if (error.response.status === 401) {
-      router.push({ path: '/login', query: { redirect: router.app.$route.fullPath }})
-      message = 'login expired.'
-      Message({
-        message: message,
-        type: 'error',
-        duration: 5 * 1000
-      })
-    }
+    // let message = error.message
+    // if (error.response.status === 401) {
+    //   router.push({ path: '/login', query: { redirect: router.app.$route.fullPath }})
+    //   message = 'login expired.'
+    //   Message({
+    //     message: message,
+    //     type: 'error',
+    //     duration: 5 * 1000
+    //   })
+    // }
     return Promise.reject(error)
   }
 )

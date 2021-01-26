@@ -93,16 +93,65 @@
   display: inline-flex !important;
 }
 
-.row-cell-mini {
+.table-cell-mini {
   padding: 0px !important;
 }
 
-.el-pagination__editor.el-input .el-input__inner {
-    height: 28px;
+.table-header-cell-mini {
+  background-color: #F5F7FA !important;
 }
 
-.el-pagination.is-background .el-pager li {
-  background-color: #FFFFFF;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+// 修改使table border颜色更深一些
+.el-table--border th, .el-table--border td {
+  border-right: 1px solid #e6e6e6;
+}
+.el-table th.is-leaf, .el-table td {
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.el-table--group, .el-table--border {
+  border: 0px;
+}
+
+.el-table::before {
+  height: 0px;
+}
+
+.el-table__fixed::before, .el-table__fixed-right::before {
+  height: 0px;
+}
+
+.el-table--group::after, .el-table--border::after {
+  background-color: #e6e6e6;
+}
+
+
+@media screen and (min-width: 1300px) {
+  body {
+  }
+  .el-table--mini {
+      font-size: 12px;
+  }
+}
+
+@media screen and (min-width: 1900px) {
+  body {
+  }
+  .el-table--mini {
+      font-size: 14px;
+  }
+}
+
+// show-overflow-tooltip时限制宽度
+.el-tooltip__popper{
+  max-width: 50%;
+}
+
+
+.el-table th > .cell {
+  white-space: nowrap;
+}
+
+.el-table th {
+  padding: 2px 0;
 }

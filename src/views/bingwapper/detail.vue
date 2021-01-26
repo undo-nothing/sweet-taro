@@ -93,7 +93,7 @@ export default {
     // 获取
     getDetail() {
       this.dateText = formatDate(this.$route.params.date)
-      const url_path = this.apiUrl + this.apiPath
+      const url_path = this.apiPath
       const parmas = {}
       parmas['date'] = this.$route.params.date
       commonGetOne(this, url_path, parmas)

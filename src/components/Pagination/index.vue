@@ -103,4 +103,14 @@ export default {
     background-color: #00a1d6;
     color: #FFFFFF;
 }
+
+.el-pagination__editor.el-input .el-input__inner {
+    height: 28px;
+}
+
+.el-pagination.is-background .el-pager li {
+  background-color: #FFFFFF;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
 </style>

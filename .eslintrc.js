@@ -37,7 +37,8 @@ module.exports = {
     'camelcase': [0, {
       'properties': 'always'
     }],
-    'comma-dangle': [2, 'never'],
+    // 'comma-dangle': [2, 'never'],
+    'comma-dangle': 'off',
     'comma-spacing': [2, {
       'before': false,
       'after': true
@@ -142,10 +143,7 @@ module.exports = {
     }],
     'no-unreachable': 2,
     'no-unsafe-finally': 2,
-    // 'no-unused-vars': [2, {
-    //   'vars': 'all',
-    //   'args': 'none'
-    // }],
+    'no-unused-vars': 'off',
     'no-useless-call': 2,
     'no-useless-computed-key': 2,
     'no-useless-constructor': 2,

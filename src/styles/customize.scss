@@ -1,0 +1,61 @@
+//main-container全局样式
+.app-container {
+  padding: 15px;
+}
+
+.components-container {
+  margin: 30px 50px;
+  position: relative;
+}
+
+.table-container {
+  height: 100%;
+  border: 1px solid #e6e6e6;
+  border-right: 0px;
+  border-botton: 0px;
+  .el-table {
+    border-top: 1px solid #e6e6e6;
+  }
+}
+
+.table-pagination-container {
+  background: #fff;
+  padding: 3px 20px;
+  border: 1px solid #e6e6e6;
+  height: 40px;
+}
+
+.table-toolbar {
+  border-bottom: 0px solid #e6e6e6;
+  border-right: 1px solid #e6e6e6;
+  height: 31px;
+  .table-toolbar-left {
+    float: left;
+    .el-button {
+      padding: 8px 16px;
+      border-radius: 1px;
+      background: #d8dce1 !important;
+      border: 0px;
+      color: #777777 !important;
+      margin-right: 3px !important;
+      margin-left: 0px !important;
+    }
+    .el-button:hover {
+      background-color: #a9acb0 !important;
+      color: #000000 !important;
+    }
+    .el-dropdown-selfdefine {
+      padding-right: 10px;
+    }
+  }
+  .table-toolbar-right {
+    float: right;
+    .toolbar-button-icon {
+      padding: 3px 3px;
+      margin-left: 4px;
+      font-size: 21px;
+      color: #606266;
+      border-radius: 0;
+    }
+  }
+}

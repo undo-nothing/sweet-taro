@@ -39,8 +39,8 @@ export default {
       }
     },
     setSelfHeight() {
-      this.selfHeight = (this.screenHeight - 50).toString() + 'px'
-      console.log('set height:', this.selfHeight)
+      this.selfHeight = (this.screenHeight - 105).toString() + 'px'
+      // console.log('set height:', this.selfHeight)
     }
   }
 }
