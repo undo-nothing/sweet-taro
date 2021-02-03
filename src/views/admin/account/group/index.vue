@@ -3,7 +3,7 @@
 
     <div class="filter-container" />
 
-    <div class="table-container" style='height="calc(100% - 31px)"'>
+    <div class="table-container" style="height=&quot;calc(100% - 31px)&quot;">
       <div class="table-toolbar">
         <div class="table-toolbar-left">
           <el-button v-if="addPermission" @click="handleAdd">新增</el-button>
@@ -64,8 +64,8 @@
     </div>
     <table-pagination :total="total" :page.sync="page" :limit.sync="limit" @pagination="fetchList" />
 
-    <group-add-popup :visible.sync=addFormVisible @success="fetchList" />
-    <group-edit-popup :visible.sync=editFormVisible :dataId='selectRowId' @success="fetchList" />
+    <group-add-popup :visible.sync="addFormVisible" @success="fetchList" />
+    <group-edit-popup :visible.sync="editFormVisible" :data-id="selectRowId" @success="fetchList" />
 
   </flex-app-container>
 </template>
@@ -75,8 +75,8 @@ import GroupAddPopup from './add'
 import GroupEditPopup from './edit'
 
 export default {
-  mixins: [tableMixin],
   components: { GroupAddPopup, GroupEditPopup },
+  mixins: [tableMixin],
   data() {
     return {
       tableKey: 1,

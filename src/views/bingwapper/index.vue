@@ -61,7 +61,7 @@
                   </div>
                 </div>
                 <div class="card-content">
-                  <div class="content-body">{{ item.title }}</div>
+                  <div class="content-body">{{ item.title }} (© {{ item.author }})</div>
                   <el-row class="content-footer">
                     <el-col :span="12">
                       <i class="el-icon-date" />

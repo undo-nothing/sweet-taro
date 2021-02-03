@@ -74,6 +74,7 @@ const routes = [
   {
     path: '/',
     component: () => import('@/views/bingwapper/index'),
+    name: 'index-page',
     meta: { title: '首页' },
   },
   {

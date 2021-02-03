@@ -16,6 +16,7 @@ export default {
   name: 'ListFieldShow',
   props: {
     listFields: {
+      type: Array,
       required: true
     }
   },

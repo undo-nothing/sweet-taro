@@ -58,8 +58,8 @@
                   <el-form-item style="margin-bottom: 0px;">
                     <el-checkbox v-model="remenberme">记住我</el-checkbox>
                     <span style="color: #bbb; font-size: 12px; padding-right: 20px;"> 不是自己的电脑上不要勾选此项</span>
-                    <span class='link-type'> 无法验证？</span>
-                    <span class='link-type'> 忘记密码？</span>
+                    <span class="link-type"> 无法验证？</span>
+                    <span class="link-type"> 忘记密码？</span>
                   </el-form-item>
 
                   <el-button type="primary" class="login-button" @click.native.prevent="handleLogin">登录</el-button>
@@ -106,13 +106,11 @@ export default {
     }
   },
   created() {
-    console.log('created')
   },
   methods: {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          console.log(this.loginForm)
           getJwtToken(this.loginForm).then(response => {
             var jwtToken = response.data.token
             setToken(jwtToken)
@@ -124,7 +122,6 @@ export default {
       })
     },
     checkCapslock({ shiftKey, key } = {}) {
-      console.log(shiftKey, key)
       if (key && key.length === 1) {
         if (shiftKey && (key >= 'a' && key <= 'z') || !shiftKey && (key >= 'A' && key <= 'Z')) {
           this.capsTooltip = true

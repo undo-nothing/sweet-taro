@@ -3,7 +3,7 @@
 
     <div class="filter-container" />
 
-    <div class="table-container" style='height="calc(100% - 31px)"'>
+    <div class="table-container" style="height=&quot;calc(100% - 31px)&quot;">
       <div class="table-toolbar">
         <div class="table-toolbar-left">
           <el-button v-if="addPermission" @click="handleAdd">新增</el-button>

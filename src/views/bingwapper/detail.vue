@@ -3,7 +3,7 @@
     <div class="header-box">
       <div class="header-left">
         <el-row>
-          <el-button icon="el-icon-arrow-left" @click="handleBack">INDEX</el-button>
+          <el-button icon="el-icon-arrow-left" @click="handleBack">首页</el-button>
         </el-row>
       </div>
       <div class="header-right">
@@ -14,10 +14,11 @@
         </el-row>
       </div>
     </div>
+
     <div class="footer-box">
       <div class="footer-right">
         <el-row>
-          <el-button type="info" icon="el-icon-location">{{ detail.author }}</el-button>
+          <el-button type="info" icon="el-icon-location">{{ detail.title }} (© {{ detail.author }})</el-button>
           <el-date-picker
             v-model="dateText"
             type="date"
@@ -56,7 +57,7 @@
 <script>
 import clipboard from '@/utils/clipboard'
 import { commonGetOne } from '@/utils/common_curd'
-import { strfdate, randomDate } from '@/utils/datetime'
+import { strfdate, strpdate, randomDate } from '@/utils/datetime'
 import { downloadFile } from '@/api/utils'
 
 export default {
@@ -66,73 +67,82 @@ export default {
     return {
       apiPath: 'bingwappers/',
       detail: {},
-      date: new Date(this.$route.params.date.replace('-', '/')),
-      dateText: this.$route.params.date.replace('-', '/'),
+      date: null,
+      dateText: null,
       isLike: true,
       shareDialogVisible: false,
-      shareText: ''
+      shareText: '',
     }
   },
   computed: {
-    // 计算属性的 getter
     nextButtonDisable: function() {
-      return strfdate(new Date()) === strfdate(this.date)
+      return strfdate() === strfdate(this.date)
     },
     bgUrl: function() {
       return this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
     }
   },
   watch: {
+    detail() {
+      if (this.detail.date) {
+        var new_date = strpdate(this.detail.date)
+        if (strfdate(this.date) !== strfdate(new_date)) {
+          this.date = new_date
+        }
+      }
+    },
+    date() {
+      this.dateText = strfdate(this.date)
+      this.$router.push({ name: 'bingwapper-detail', params: { date: strfdate(this.date) }})
+    },
     $route() {
       this.getDetail()
     }
   },
   created() {
+    this.init()
     this.getDetail()
   },
   methods: {
-    // 获取
-    getDetail() {
-      this.dateText = strfdate(this.$route.params.date)
-      const url_path = this.apiPath
-      const parmas = {}
-      parmas['date'] = this.$route.params.date
-      commonGetOne(this, url_path, parmas)
-    },
-    changeDate(date) {
-      if (date) {
-        this.date = date
+    init() {
+      if (!this.$route.params.date) {
+        this.$route.params.date = strfdate()
       }
-      this.$router.push({ name: 'bingwapper-detail', params: { date: strfdate(this.date) }})
+      this.date = strpdate(this.$route.params.date)
+    },
+    getDetail() {
+      var url_path = this.apiPath
+      var params = {}
+      params['date'] = this.$route.params.date
+      params['default'] = 'latest'
+      commonGetOne(this, url_path, params)
     },
     lastDay() {
-      this.date.setDate(this.date.getDate() - 1)
-      this.changeDate()
+      this.date = this.date.subtract(1, 'day')
     },
     randomDay() {
-      const start_date = new Date('2016/08/08')
-      // newDate = randomDate(start_date, new Date())
-      this.date = randomDate(start_date, new Date())
-      this.changeDate()
+      var start_date = strpdate('2016-08-08')
+      this.date = randomDate(start_date, strpdate())
     },
     nextDay() {
-      this.date.setDate(this.date.getDate() + 1)
-      this.changeDate()
+      this.date = this.date.add(1, 'day')
+    },
+    changeDate() {
+      this.date = strpdate(this.dateText)
     },
     handleClipboard(event) {
       this.shareDialogVisible = false
       clipboard(this.shareText, event)
     },
     handleBack() {
-      this.$router.push({ name: 'bingwapper-index' })
+      this.$router.push({ name: 'index-page' })
     },
     handleShare() {
       this.shareText = `#必应壁纸# ${this.detail.date} / ${this.detail.author} \n${window.location.href}`
       this.shareDialogVisible = true
     },
     handleDownload() {
-      const url = this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
-      // window.open(url)
+      var url = this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
       downloadFile(url)
     },
     handleLike() {

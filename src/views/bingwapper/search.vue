@@ -24,7 +24,7 @@
         />
       </div>
       <div class="search_input" @keyup.enter="handleSearch">
-        <el-input v-model="input" :placeholder="detail.author">
+        <el-input v-model="input" :placeholder="detail.title">
           <el-select slot="prepend" v-model="engine" placeholder="" @change="changeEngine">
             <el-option label="Baidu" value="baidu" />
             <el-option label="Google" value="google" />
@@ -38,7 +38,7 @@
     <div class="footer-box">
       <div class="footer-right">
         <el-row>
-          <el-button type="info" icon="el-icon-location">{{ detail.author }}</el-button>
+          <el-button type="info" icon="el-icon-location">{{ detail.title }} (© {{ detail.author }})</el-button>
           <el-date-picker
             v-model="dateText"
             type="date"
@@ -124,6 +124,8 @@ export default {
     date() {
       this.dateText = strfdate(this.date)
       this.$router.push({ name: 'search-page', params: { date: strfdate(this.date) }})
+    },
+    $route() {
       this.getDetail()
     }
   },
@@ -163,7 +165,7 @@ export default {
       clipboard(this.shareText, event)
     },
     handleBack() {
-      this.$router.push({ name: 'bingwapper-index' })
+      this.$router.push({ name: 'index-page' })
     },
     handleShare() {
       this.shareText = `#必应壁纸# ${this.detail.date} / ${this.detail.author} \n${window.location.href}`

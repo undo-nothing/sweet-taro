@@ -1,12 +1,7 @@
 'use strict'
 const path = require('path')
 
-
-var baseUrl = process.env.VUE_APP_API_HOST
-if (process.env.VUE_APP_API_PORT) {
-  baseUrl = baseUrl + ':' + process.env.VUE_APP_API_PORT
-}
-
+var baseProxyUrl = process.env.VUE_BASE_PROXY_URL
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -49,25 +44,25 @@ module.exports = {
     }
   },
   devServer: {
-      proxy: {
-          '/media/': {
-            target: baseUrl,
-            // 允许跨域
-            changeOrigin: true,
-            ws: true,
-            pathRewrite: {
-                '/media/': '/media/'
-            }
-          },
-          '/v1.0/': {
-            target: baseUrl,
-            // 允许跨域
-            changeOrigin: true,
-            ws: true,
-            pathRewrite: {
-                '/v1.0/': '/v1.0/'
-            }
-          }
+    proxy: {
+      '/media/': {
+        target: baseProxyUrl,
+        // 允许跨域
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '/media/': '/media/'
+        }
+      },
+      '/v1.0/': {
+        target: baseProxyUrl,
+        // 允许跨域
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '/v1.0/': '/v1.0/'
+        }
       }
+    }
   }
 }
