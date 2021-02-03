@@ -114,3 +114,24 @@ export default {
   border-radius: 4px;
 }
 </style>
+
+<style scoped lang="scss">
+  /deep/ .el-pagination.is-background .el-pager li, /deep/ .btn-next {
+    font-weight: normal;
+    font-size: 14px;
+    background: #fff !important;
+    height: 38px;
+    line-height: 38px;
+    border-radius: 4px !important;
+    color: #222;
+    border: 1px solid #ddd !important;
+  }
+  /deep/ .el-pagination.is-background .el-pager li:not(.disabled).active {
+    background: #00A1D6 !important;
+  }
+
+  /deep/ .el-pagination__jump, /deep/ .el-pagination__sizes, /deep/ .el-pagination__total {
+    height: 38px !important;
+    line-height: 38px !important;
+  }
+</style>

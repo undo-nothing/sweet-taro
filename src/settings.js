@@ -1,12 +1,9 @@
-var baseUrl = process.env.VUE_APP_API_HOST
-if (process.env.VUE_APP_API_PORT) {
-  baseUrl = baseUrl + ':' + process.env.VUE_APP_API_PORT
-}
-var mediaBaseUrl = baseUrl + '/media/'
-var apiBaseUrl = baseUrl + process.env.VUE_APP_BASE_API
+var baseUrl = process.env.VUE_APP_BASE_URL
+var mediaBaseUrl = process.env.VUE_APP_BASE_MEDIA
+var apiBaseUrl = process.env.VUE_APP_BASE_API
 
 module.exports = {
-  title: 'SweetTaro',
+  title: 'sweet-taro',
   baseUrl,
   apiBaseUrl,
   mediaBaseUrl

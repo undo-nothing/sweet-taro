@@ -56,7 +56,8 @@
 <script>
 import clipboard from '@/utils/clipboard'
 import { commonGetOne } from '@/utils/common_curd'
-import { formatDate, randomDate } from '@/utils/datetime'
+import { strfdate, randomDate } from '@/utils/datetime'
+import { downloadFile } from '@/api/utils'
 
 export default {
   components: {
@@ -75,7 +76,7 @@ export default {
   computed: {
     // 计算属性的 getter
     nextButtonDisable: function() {
-      return formatDate(new Date()) === formatDate(this.date)
+      return strfdate(new Date()) === strfdate(this.date)
     },
     bgUrl: function() {
       return this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
@@ -92,7 +93,7 @@ export default {
   methods: {
     // 获取
     getDetail() {
-      this.dateText = formatDate(this.$route.params.date)
+      this.dateText = strfdate(this.$route.params.date)
       const url_path = this.apiPath
       const parmas = {}
       parmas['date'] = this.$route.params.date
@@ -102,7 +103,7 @@ export default {
       if (date) {
         this.date = date
       }
-      this.$router.push({ name: 'bingwapper-detail', params: { date: formatDate(this.date) }})
+      this.$router.push({ name: 'bingwapper-detail', params: { date: strfdate(this.date) }})
     },
     lastDay() {
       this.date.setDate(this.date.getDate() - 1)
@@ -131,7 +132,8 @@ export default {
     },
     handleDownload() {
       const url = this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
-      window.open(url)
+      // window.open(url)
+      downloadFile(url)
     },
     handleLike() {
       this.isLike = !this.isLike

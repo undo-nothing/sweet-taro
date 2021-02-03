@@ -13,13 +13,13 @@
               </a>
             </li>
             <li>
-              <a :href="'/bingwapper/' + todayDateStr()">
+              <a href="/">
                 <div class="round"><i class="el-icon-s-grid" style="color: #fff" /></div>
                 <span>分类</span>
               </a>
             </li>
             <li>
-              <a :href="'/bingwapper/' + todayDateStr()">
+              <a href="/">
                 <div class="round"><i class="el-icon-s-data" style="color: #fff" /></div>
                 <span>排行</span>
               </a>
@@ -128,7 +128,7 @@ import FriendshipLink from '@/components/FriendshipLink'
 import MiddleLink from '@/components/MiddleLink'
 import SortItem from '@/components/SortItem'
 import { dataShowMixin } from '@/mixin/datashow'
-import { formatDate } from '@/utils/datetime'
+import { strfdate } from '@/utils/datetime'
 
 export default {
   components: {
@@ -144,7 +144,8 @@ export default {
       // 页面自定义
       apiPath: 'bingwappers/',
       years: [],
-      todayDate: new Date()
+      todayDate: new Date(),
+      limit: 24
     }
   },
   methods: {
@@ -152,7 +153,8 @@ export default {
       this.initYears()
     },
     gotoDetailPage(date) {
-      window.open('/bingwapper/' + date, '_blank')
+      // window.open('/bingwapper/' + date, '_blank')
+      this.$router.push({ path: '/bingwapper/' + date })
     },
     getWapperUrl(filename) {
       return this.mediaBaseUrl + 'bingwapper/' + filename + '.jpg'
@@ -165,7 +167,7 @@ export default {
       }
     },
     todayDateStr() {
-      return formatDate(this.todayDate)
+      return strfdate(this.todayDate)
     }
   }
 }
@@ -267,7 +269,7 @@ export default {
 }
 
 .main-area {
-  width: 100%;
+  width: 1400px;
   height: 100%;
   margin: auto;
 
@@ -286,8 +288,8 @@ export default {
 }
 
 .wapper-card-small {
-  width: 338px;
-  height: 270px;
+  width: 265px;
+  height: 230px;
   cursor: pointer;
   margin: 8px;
   box-shadow: 0 5px 40px -1px rgba(2, 10, 18, .15);
@@ -295,7 +297,7 @@ export default {
 
   .card-pic {
     width: 100%;
-    height: 73%;
+    height: 150px;
     padding: 5px;
     div {
       width: 100%;
@@ -347,11 +349,12 @@ export default {
   position: relative;
   margin-bottom: 16px;
   overflow: hidden;
+  width: 230px;
 
   .filter-name {
     display: block;
     float: left;
-    width: 52px;
+    width: 32px;
     height: 30px;
     line-height: 1;
     font-size: 12px;
@@ -364,7 +367,7 @@ export default {
 
   .filter-item-wrapper {
     margin-top: 0;
-    width: 225px;
+    width: 180px;
     float: right;
 
     .filter-item {
@@ -387,16 +390,15 @@ export default {
 }
 </style>
 
-<style lang="scss" scoped>
-@media screen and (min-width: 1920px) {
+<style scoped>
+@media screen and (min-width: 1921px){
   .main-area {
     width: 1749px;
   }
 }
-
-@media screen and (min-width: 1200) {
+@media screen and (max-width: 1440px){
   .main-area {
-    width: 1349px;
+    width: 1080px;
   }
 }
 </style>

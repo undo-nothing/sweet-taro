@@ -3,7 +3,7 @@ import axios from 'axios'
 import request from '@/utils/request'
 import settings from '@/settings'
 
-const base_url = settings.baseUrl
+const api_api_base_url = settings.apiBaseUrl
 
 export function login(data) {
   return axios({
@@ -30,7 +30,7 @@ export function logout() {
 
 export function getJwtToken(data) {
   return request({
-    url: base_url + '/v1.0/jwt-api-token-auth/',
+    url: api_base_url + '/v1.0/jwt-api-token-auth/',
     method: 'post',
     data
   })
@@ -38,7 +38,7 @@ export function getJwtToken(data) {
 
 export function getPermissionTree() {
   return request({
-    url: base_url + '/v1.0/permissions/tree/',
+    url: api_base_url + '/v1.0/permissions/tree/',
     method: 'get'
   })
 }

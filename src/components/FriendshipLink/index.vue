@@ -12,12 +12,12 @@
     <span>
       <div class="item"><a class="name" href="https://cn.bing.com/"><svg-icon icon-class="bing" target="_blank" /><span>Bing</span></a></div>
     </span>
-    <span>
+<!--     <span>
       <div class="item"><a class="name" href="https://www.python.org/" target="_blank"><svg-icon icon-class="python" /><span>Python</span></a></div>
     </span>
     <span>
       <div class="item"><a class="name" href="https://www.djangoproject.com/" target="_blank"><svg-icon icon-class="django" /><span>Django</span></a></div>
-    </span>
+    </span> -->
   </div>
 </template>
 

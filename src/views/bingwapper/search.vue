@@ -24,7 +24,7 @@
         />
       </div>
       <div class="search_input" @keyup.enter="handleSearch">
-        <el-input v-model="input" :placeholder="input_placeholder">
+        <el-input v-model="input" :placeholder="detail.author">
           <el-select slot="prepend" v-model="engine" placeholder="" @change="changeEngine">
             <el-option label="Baidu" value="baidu" />
             <el-option label="Google" value="google" />
@@ -77,7 +77,8 @@
 <script>
 import clipboard from '@/utils/clipboard'
 import { commonGetOne } from '@/utils/common_curd'
-import { formatDate, randomDate } from '@/utils/datetime'
+import { strfdate, strpdate, randomDate } from '@/utils/datetime'
+import { downloadFile } from '@/api/utils'
 
 export default {
   components: {
@@ -86,8 +87,8 @@ export default {
     return {
       apiPath: 'bingwappers/',
       detail: {},
-      date: new Date(this.$route.params.date.replace('-', '/')),
-      dateText: this.$route.params.date.replace('-', '/'),
+      date: null,
+      dateText: null,
       isLike: true,
       shareDialogVisible: false,
       shareText: '',
@@ -105,46 +106,57 @@ export default {
   },
   computed: {
     nextButtonDisable: function() {
-      return formatDate(new Date()) === formatDate(this.date)
+      return strfdate() === strfdate(this.date)
     },
     bgUrl: function() {
       return this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
     }
   },
   watch: {
-    $route() {
+    detail() {
+      if (this.detail.date) {
+        var new_date = strpdate(this.detail.date)
+        if (strfdate(this.date) !== strfdate(new_date)) {
+          this.date = new_date
+        }
+      }
+    },
+    date() {
+      this.dateText = strfdate(this.date)
+      this.$router.push({ name: 'search-page', params: { date: strfdate(this.date) }})
       this.getDetail()
     }
   },
   created() {
+    this.init()
     this.getDetail()
   },
   methods: {
-    getDetail() {
-      this.dateText = formatDate(this.$route.params.date)
-      const url_path = this.apiPath
-      const parmas = {}
-      parmas['date'] = this.$route.params.date
-      commonGetOne(this, url_path, parmas)
-    },
-    changeDate(date) {
-      if (date) {
-        this.date = date
+    init() {
+      if (!this.$route.params.date) {
+        this.$route.params.date = strfdate()
       }
-      this.$router.push({ name: 'search-page', params: { date: formatDate(this.date) }})
+      this.date = strpdate(this.$route.params.date)
+    },
+    getDetail() {
+      var url_path = this.apiPath
+      var params = {}
+      params['date'] = this.$route.params.date
+      params['default'] = 'latest'
+      commonGetOne(this, url_path, params)
     },
     lastDay() {
-      this.date.setDate(this.date.getDate() - 1)
-      this.changeDate()
+      this.date = this.date.subtract(1, 'day')
     },
     randomDay() {
-      const start_date = new Date('2016/08/08')
-      this.date = randomDate(start_date, new Date())
-      this.changeDate()
+      var start_date = strpdate('2016-08-08')
+      this.date = randomDate(start_date, strpdate())
     },
     nextDay() {
-      this.date.setDate(this.date.getDate() + 1)
-      this.changeDate()
+      this.date = this.date.add(1, 'day')
+    },
+    changeDate() {
+      this.date = strpdate(this.dateText)
     },
     handleClipboard(event) {
       this.shareDialogVisible = false
@@ -158,8 +170,8 @@ export default {
       this.shareDialogVisible = true
     },
     handleDownload() {
-      const url = this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
-      window.open(url)
+      var url = this.detail.filename ? this.mediaBaseUrl + 'bingwapper/' + this.detail.filename + '.jpg' : ''
+      downloadFile(url)
     },
     handleLike() {
       this.isLike = !this.isLike
@@ -177,6 +189,9 @@ export default {
       }
     },
     handleSearch() {
+      if (!this.input) {
+        this.input = this.detail.author
+      }
       window.open(this.engine_url[this.engine] + this.input, '_blank')
       this.input = ''
     }
@@ -221,11 +236,11 @@ export default {
 }
 
 .search_box {
-  width: 850px;
+  width: 800px;
   position: absolute;
   left: 15%;
-  top: 220px;
-  margin-left: 50px;
+  top: 210px;
+  margin-left: 40px;
 
   .search_logo {
     width: 120px;
@@ -233,7 +248,7 @@ export default {
   }
 
   .search_input {
-    width: 700px;
+    width: 650px;
     float: right;
   }
   .search_btn_icon {
@@ -276,7 +291,7 @@ export default {
 .search_box >>> .el-input-group__append, .search_box >>> .el-input__inner, .search_box >>>  .el-input-group__prepend {
   background-color: rgb(255, 255, 255);
   border-color: transparent;
-  height: 50px;
+  height: 55px;
 }
 </style>
 
@@ -301,11 +316,11 @@ export default {
 }
 @media screen and (max-height: 901px){
   .search_box {
-    top: 190px;
-    width: 670px;
+    top: 160px;
+    width: 620px;
   }
   .search_box .search_input {
-    width: 550px;
+    width: 490px;
   }
   .search_box .search_logo {
     width: 100px;
@@ -314,7 +329,7 @@ export default {
     font-size: 25px;
   }
   .search_box >>> .el-input-group__append, .search_box >>> .el-input__inner, .search_box >>>  .el-input-group__prepend {
-    height: 43px;
+    height: 48px;
   }
 }
 </style>

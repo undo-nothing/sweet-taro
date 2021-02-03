@@ -62,6 +62,10 @@ const routes = [
     props: (route) => ({ date: route.query.date })
   },
   {
+    path: '/search',
+    component: () => import('@/views/bingwapper/search'),
+  },
+  {
     path: '/search/:date',
     name: 'search-page',
     component: () => import('@/views/bingwapper/search'),
@@ -69,7 +73,8 @@ const routes = [
   },
   {
     path: '/',
-    component: () => import('@/views/index')
+    component: () => import('@/views/bingwapper/index'),
+    meta: { title: '首页' },
   },
   {
     path: '/icon',

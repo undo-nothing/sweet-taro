@@ -41,10 +41,10 @@
           <div class="nav-link">
             <ul class="nav-link-ul">
               <li>
-                <a href="" target="_blank" class="link">登录</a>
+                <a href="/login" target="_blank" class="link">登录</a>
               </li>
               <li>
-                <a href="" target="_blank" class="link">注册</a>
+                <a href="/login" target="_blank" class="link">注册</a>
               </li>
             </ul>
           </div>

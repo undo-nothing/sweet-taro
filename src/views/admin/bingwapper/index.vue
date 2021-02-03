@@ -51,11 +51,13 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column v-if="editPermission || deletePermission" label="" align="center" width="80" fixed="right">
+        <el-table-column v-if="editPermission || deletePermission" label="" align="center" width="120" fixed="right">
           <template slot-scope="scope">
             <el-button-group>
               <el-button v-if="editPermission" type="text" plain icon="el-icon-edit" class="cell-toolbar-button" style="color: #67c23a" @click="handleEdit(scope.$index, scope.row)" />
               <el-button v-if="deletePermission" type="text" plain icon="el-icon-delete" class="cell-toolbar-button" style="color: #f56c6c" @click="handleDel(scope.$index, scope.row)" />
+              <el-button v-if="deletePermission" type="text" plain icon="el-icon-picture-outline" class="cell-toolbar-button" style="color: #f56c6c" @click="handleView(scope.$index, scope.row)" />
+              <el-button v-if="deletePermission" type="text" plain icon="el-icon-download" class="cell-toolbar-button" style="color: #f56c6c" @click="handleDownload(scope.$index, scope.row)" />
             </el-button-group>
           </template>
         </el-table-column>
@@ -74,6 +76,7 @@
 import tableMixin from '@/mixin/table_mixin'
 import BingwapperAddPopup from './add'
 import BingwapperEditPopup from './edit'
+import { downloadFile } from '@/api/utils'
 
 export default {
   components: { BingwapperAddPopup, BingwapperEditPopup },
@@ -112,7 +115,7 @@ export default {
         {
           prop: 'date',
           label: '日期',
-          minWidth: '20',
+          minWidth: '28',
           show: true
         },
         {
@@ -127,6 +130,14 @@ export default {
   computed: {
   },
   methods: {
+    handleView: function(index, row) {
+      const date = row.date
+      window.open('/bingwapper/' + date, '_blank')
+    },
+    handleDownload: function(index, row) {
+      const url = '/media/' + 'bingwapper/' + row.filename + '.jpg'
+      downloadFile(url)
+    },
   }
 }
 </script>

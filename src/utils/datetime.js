@@ -1,38 +1,20 @@
-export function formatDate(date, format) {
-  if (!date) return
-  if (!format) format = 'yyyy-MM-dd'
-  switch (typeof date) {
-    case 'string':
-      date = new Date(date.replace(/-/, '/'))
-      break
-    case 'number':
-      date = new Date(date)
-      break
+import dayjs from 'dayjs'
+
+export function strfdate(date, format) {
+  if (!format) {
+    format = 'YYYY-MM-DD'
   }
-  if (!(date instanceof Date)) return
-  var dict = {
-    'yyyy': date.getFullYear(),
-    'M': date.getMonth() + 1,
-    'd': date.getDate(),
-    'H': date.getHours(),
-    'm': date.getMinutes(),
-    's': date.getSeconds(),
-    'MM': ('' + (date.getMonth() + 101)).substr(1),
-    'dd': ('' + (date.getDate() + 100)).substr(1),
-    'HH': ('' + (date.getHours() + 100)).substr(1),
-    'mm': ('' + (date.getMinutes() + 100)).substr(1),
-    'ss': ('' + (date.getSeconds() + 100)).substr(1)
-  }
-  return format.replace(/(yyyy|MM?|dd?|HH?|ss?|mm?)/g, function() {
-    return dict[arguments[0]]
-  })
+  return dayjs(date).format(format)
+}
+
+export function strpdate(date) {
+  return dayjs(date)
 }
 
 export function randomDate(start, end) {
   // start：开始日期，end结束日期
-  var retDate = new Date(start.valueOf())
-  const max = parseInt((end - start) / (1000 * 60 * 60 * 24))
-  const randomNumber = Math.floor(Math.random() * (max + 1))
-  retDate.setDate(start.getDate() + randomNumber)
-  return retDate
+  var ret_date = dayjs(start)
+  var max = parseInt((end - start) / (1000 * 60 * 60 * 24))
+  var randomNumber = Math.floor(Math.random() * (max + 1))
+  return ret_date.add(randomNumber, 'day')
 }
