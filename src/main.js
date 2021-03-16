@@ -12,10 +12,14 @@ import settings from '@/settings'
 // for debug mock data
 // require('./mock');
 
-Vue.config.productionTip = false
+if (process.env.ENV  === 'development') {
+  Vue.config.productionTip = false
+} else {
+  Vue.config.productionTip = true
+}
+
 Vue.prototype.mediaBaseUrl = settings.mediaBaseUrl
 
-Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title
